@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="k6730B" name="MumuAudioGranular" projectType="audioplug"
+              version="1.0.0" bundleIdentifier="com.yourcompany.MumuAudioGranular"
+              includeBinaryInAppConfig="1" buildVST="1" buildVST3="1" buildAU="0"
+              buildRTAS="0" buildAAX="0" pluginName="MumuAudioGranular" pluginDesc="MumuAudioGranular"
+              pluginManufacturer="yourcompany" pluginManufacturerCode="Manu"
+              pluginCode="K673" pluginChannelConfigs="{1, 1}, {2, 2}" pluginIsSynth="0"
+              pluginWantsMidiIn="0" pluginProducesMidiOut="0" pluginSilenceInIsSilenceOut="0"
+              pluginEditorRequiresKeys="0" pluginAUExportPrefix="MumuAudioGranularAU"
+              pluginRTASCategory="" aaxIdentifier="com.yourcompany.MumuAudioGranular"
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="4.0.1">
+  <MAINGROUP id="En0btd" name="MumuAudioGranular">
+    <GROUP id="{8CC60499-F971-8265-C151-CD0A9C23E95B}" name="Source">
+      <FILE id="nn987T" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="yQQKol" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="NkbE83" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="odapvf" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="YwBl3b" name="GranularBuffer.cpp" compile="1" resource="0"
+            file="Source/GranularBuffer.cpp"/>
+      <FILE id="vSeVQF" name="GranularBuffer.h" compile="0" resource="0"
+            file="Source/GranularBuffer.h"/>
+      <FILE id="M20OVH" name="Grain.cpp" compile="1" resource="0" file="Source/Grain.cpp"/>
+      <FILE id="SJFKJ5" name="Grain.h" compile="0" resource="0" file="Source/Grain.h"/>
+      <FILE id="yp8aeM" name="FourPointInterpolate.cpp" compile="1" resource="0"
+            file="Source/FourPointInterpolate.cpp"/>
+      <FILE id="uhyPS4" name="FourPointInterpolate.h" compile="0" resource="0"
+            file="Source/FourPointInterpolate.h"/>
+      <FILE id="ae3ZGv" name="TukeyWindow.cpp" compile="1" resource="0" file="Source/TukeyWindow.cpp"/>
+      <FILE id="FdSd7R" name="TukeyWindow.h" compile="0" resource="0" file="Source/TukeyWindow.h"/>
+      <FILE id="Lup14K" name="SawLFO.cpp" compile="1" resource="0" file="Source/SawLFO.cpp"/>
+      <FILE id="whWZe8" name="SawLFO.h" compile="0" resource="0" file="Source/SawLFO.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="1" optimisation="1" targetName="MumuAudioGranular"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="0" optimisation="3" targetName="MumuAudioGranular"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_QUICKTIME="disabled"/>
+</JUCERPROJECT>
