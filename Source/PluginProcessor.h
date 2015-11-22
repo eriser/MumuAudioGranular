@@ -13,6 +13,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "GranularBuffer.h"
+#include "GrainScheduler.h"
 #include "Grain.h"
 
 
@@ -61,20 +62,23 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
     
     AudioProcessorParameter* slider1Param;
+    AudioProcessorParameter* slider2Param;
+    AudioProcessorParameter* slider3Param;
+    AudioProcessorParameter* slider4Param;
+    
     AudioProcessorParameter* button1Param;
 
 private:
+    
     GranularBuffer m_gBufferL;
     GranularBuffer m_gBufferR;
     
+    GrainScheduler m_SchedulerL;
+    GrainScheduler m_SchedulerR;
+    
     const int m_nNumberGrains = 6;
-    Grain* grainp_Array;
-    
-    Grain GrainL;
-    Grain GrainR;
-    
-    int CounterL;
-    int CounterR;
+    Grain* grainp_ArrayL;
+    Grain* grainp_ArrayR;
     
     float m_fSampleRate;
     //==============================================================================

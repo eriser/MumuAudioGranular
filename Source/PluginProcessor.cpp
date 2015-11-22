@@ -13,22 +13,31 @@
 
 
 //==============================================================================
-MumuAudioGranularAudioProcessor::MumuAudioGranularAudioProcessor() : grainp_Array(nullptr)
+MumuAudioGranularAudioProcessor::MumuAudioGranularAudioProcessor() : grainp_ArrayL(nullptr),
+                                                                     grainp_ArrayR(nullptr)
 {
     m_gBufferL = GranularBuffer();
     m_gBufferR = GranularBuffer();
     
+    m_SchedulerL = GrainScheduler();
+    m_SchedulerR = GrainScheduler();
+    
     //Set sliders connected variable
-    NormalisableRange<float> slider1Range(0.0, 1.0, 0.1, 1.0);
-    addParameter(slider1Param = new AudioParameterFloat("slider1Param", "Slider1", slider1Range,1.0));
+    addParameter(slider1Param = new AudioParameterFloat("slider1Param", "Slider1", 0.0, 1.0, 0.5));
+    addParameter(slider2Param = new AudioParameterFloat("slider2Param", "Slider2", 0.0, 1.0, 0.5));
+    addParameter(slider3Param = new AudioParameterFloat("slider3Param", "Slider3", 0.0, 1.0, 0.5));
+    addParameter(slider4Param = new AudioParameterFloat("slider4Param", "Slider4", 0.0, 1.0, 0.5));
     
     addParameter(button1Param = new AudioParameterBool("button1Param", "Button1" , 0));
 }
 
 MumuAudioGranularAudioProcessor::~MumuAudioGranularAudioProcessor()
 {
-    if(grainp_Array)
-        delete [] grainp_Array;
+    if(grainp_ArrayL)
+        delete [] grainp_ArrayL;
+    
+    if(grainp_ArrayR)
+        delete [] grainp_ArrayR;
 }
 
 //==============================================================================
@@ -112,15 +121,25 @@ void MumuAudioGranularAudioProcessor::changeProgramName (int index, const String
 //==============================================================================
 void MumuAudioGranularAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    //std::cout << "prepare to play" << std::endl;
     m_fSampleRate = sampleRate;
-    
-    if (grainp_Array)
-        delete [] grainp_Array;
-    grainp_Array = new Grain[m_nNumberGrains];
+    //Left Grains
+    if (grainp_ArrayL)
+        delete [] grainp_ArrayL;
+    grainp_ArrayL = new Grain[m_nNumberGrains];
     //turn off all grains
     for (int i = 0; i < m_nNumberGrains; i++)
     {
-        grainp_Array[i].isBusy = 0;
+        grainp_ArrayL[i].isBusy = 0;
+    }
+    //Right Grains
+    if (grainp_ArrayR)
+        delete [] grainp_ArrayR;
+    grainp_ArrayR = new Grain[m_nNumberGrains];
+    //turn off all grains
+    for (int i = 0; i < m_nNumberGrains; i++)
+    {
+        grainp_ArrayR[i].isBusy = 0;
     }
     //set up grain buffers (audio data)
     m_gBufferL.setBufferLength(sampleRate, 1);
@@ -128,14 +147,9 @@ void MumuAudioGranularAudioProcessor::prepareToPlay (double sampleRate, int samp
     
     m_gBufferR.setBufferLength(sampleRate, 1);
     m_gBufferR.prepareToPlay();
-    
-    GrainL.setWindowSize(sampleRate, 0.05);
-    GrainL.setDelta(sampleRate, 0.1);
-    GrainR.setWindowSize(sampleRate, 0.05);
-    GrainR.setDelta(sampleRate, 0.1);
-    
-    CounterL = 0;
-    CounterR = 0;
+    //initialize Schedulers
+    m_SchedulerL.prepareToPlay();
+    m_SchedulerR.prepareToPlay();
     
 }
 
@@ -155,9 +169,13 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
     // this code if your algorithm already fills all the output channels.
     for (int i = getNumInputChannels(); i < getNumOutputChannels(); ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
-
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
+    
+    float pitch = jmap(slider1Param->getValue(), 0.001f, 2.0f);
+    float density = jmap(slider2Param->getValue(), 0.015f, 1.0f);
+    float grainSize = jmap(slider3Param->getValue(), 0.03f, 0.5f);
+    m_SchedulerL.setInteronset(m_fSampleRate, density);
+    m_SchedulerR.setInteronset(m_fSampleRate, density);
+    
     for (int channel = 0; channel < getNumInputChannels(); ++channel)
     {
         float* channelData = buffer.getWritePointer (channel);
@@ -167,26 +185,53 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
             if (channel == 0)
             {
                 m_gBufferL.process(channelData[i]);
-                channelData[i] = GrainL.play(m_fSampleRate, m_gBufferL);
-                CounterL++;
-                if (CounterL >= 44100)
+                m_SchedulerL.play();
+                if (m_SchedulerL.bang() == true)
                 {
-                    GrainL.init(1, m_gBufferL);
-                    GrainL.isBusy = 1;
-                    CounterL = 0;
+                    for (int i = 0; i < m_nNumberGrains; i++)
+                    {
+                        if(grainp_ArrayL[i].isItBusy() == 0)
+                        {
+                            grainp_ArrayL[i].setWindowSize(m_fSampleRate, grainSize);
+                            grainp_ArrayL[i].setDelta(m_fSampleRate, 0.1);
+                            grainp_ArrayL[i].init(pitch, m_gBufferL);
+                            grainp_ArrayL[i].isBusy = 1;
+                            break;
+                        }
+                    }
                 }
+                float output = 0;
+                for (int i = 0; i < m_nNumberGrains; i++)
+                {
+                    output += grainp_ArrayL[i].play(m_fSampleRate, m_gBufferL);
+                }
+                channelData[i] = output;
             }
             if (channel == 1)
             {
                 m_gBufferR.process(channelData[i]);
-                channelData[i] = GrainR.play(m_fSampleRate, m_gBufferR);
-                CounterR++;
-                if (CounterR >= 44100)
+                m_SchedulerR.play();
+                if (m_SchedulerR.bang() == true)
                 {
-                    GrainR.init(1, m_gBufferR);
-                    GrainR.isBusy = 1;
-                    CounterR = 0;
+                    //std::cout << "bangR" << std::endl;
+                    for (int i = 0; i < m_nNumberGrains; i++)
+                    {
+                        if(grainp_ArrayR[i].isItBusy() == 0)
+                        {
+                            grainp_ArrayR[i].setWindowSize(m_fSampleRate, grainSize);
+                            grainp_ArrayR[i].setDelta(m_fSampleRate, 0.1);
+                            grainp_ArrayR[i].init(pitch, m_gBufferR);
+                            grainp_ArrayR[i].isBusy = 1;
+                            break;
+                        }
+                    }
                 }
+                float output = 0;
+                for (int i = 0; i < m_nNumberGrains; i++)
+                {
+                    output += grainp_ArrayR[i].play(m_fSampleRate, m_gBufferR);
+                }
+                channelData[i] = output;
             }
         } 
     }

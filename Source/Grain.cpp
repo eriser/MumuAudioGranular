@@ -38,7 +38,7 @@ void Grain::init(float pitch, GranularBuffer& buffer){
     }
     if (grainIndex > buffer.nBufferSize)
     {
-        grainIndex = 0;
+        grainIndex -= buffer.nBufferSize;
     }
 }
 
@@ -47,7 +47,7 @@ int Grain::isItBusy(){
 }
 
 float Grain::play(int sampleRate, GranularBuffer& buffer){
-    float yn = buffer.pBuffer[(int)grainIndex];
+    float yn = buffer.pBuffer[(int)grainIndex % buffer.nBufferSize];
     float yn_f1 = buffer.pBuffer[((int)grainIndex+1) % buffer.nBufferSize];
     float yn_f2 = buffer.pBuffer[((int)grainIndex+2) % buffer.nBufferSize];
     int p1point = ((int)grainIndex-1) % buffer.nBufferSize;
@@ -64,7 +64,7 @@ float Grain::play(int sampleRate, GranularBuffer& buffer){
     grainIndex = grainIndex + bufferSpeed;
     if (grainIndex > buffer.nBufferSize)
     {
-        grainIndex = 0;
+        grainIndex -= buffer.nBufferSize;
     }
     
     return Window.doTukeyWindow(output, isBusy);

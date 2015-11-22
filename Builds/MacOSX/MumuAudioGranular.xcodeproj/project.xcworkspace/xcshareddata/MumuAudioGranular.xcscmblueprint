@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "97D353BF4DB6F8ABB83F683D7EA35E97D9E0CAC4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "97D353BF4DB6F8ABB83F683D7EA35E97D9E0CAC4" : 0,
+    "DEBAC9C6799FD4E8074B3BAF720718E3C3499FA0" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "50BACB5C-FA43-4CD2-922F-618CE2F8E1E7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "97D353BF4DB6F8ABB83F683D7EA35E97D9E0CAC4" : "MumuAudioGranular\/",
+    "DEBAC9C6799FD4E8074B3BAF720718E3C3499FA0" : "..\/JUCE"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "MumuAudioGranular",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Builds\/MacOSX\/MumuAudioGranular.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jakemumu\/MumuAudioGranular.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "97D353BF4DB6F8ABB83F683D7EA35E97D9E0CAC4"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/julianstorer\/JUCE.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DEBAC9C6799FD4E8074B3BAF720718E3C3499FA0"
+    }
+  ]
+}

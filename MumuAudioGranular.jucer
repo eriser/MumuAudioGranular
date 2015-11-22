@@ -11,6 +11,11 @@
               pluginRTASCategory="" aaxIdentifier="com.yourcompany.MumuAudioGranular"
               pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="4.0.1">
   <MAINGROUP id="En0btd" name="MumuAudioGranular">
+    <GROUP id="{5D7FA6A2-8922-A6C7-9ED2-B484B4B03281}" name="Resources">
+      <FILE id="IB546s" name="BlackKnob.png" compile="0" resource="1" file="Resources/BlackKnob.png"/>
+      <FILE id="j1WcJV" name="MTIID.png" compile="0" resource="1" file="Resources/MTIID.png"/>
+      <FILE id="dqJozN" name="MumuLight.png" compile="0" resource="1" file="Resources/MumuLight.png"/>
+    </GROUP>
     <GROUP id="{8CC60499-F971-8265-C151-CD0A9C23E95B}" name="Source">
       <FILE id="nn987T" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
@@ -23,6 +28,10 @@
             file="Source/GranularBuffer.cpp"/>
       <FILE id="vSeVQF" name="GranularBuffer.h" compile="0" resource="0"
             file="Source/GranularBuffer.h"/>
+      <FILE id="iMwe2H" name="GrainScheduler.cpp" compile="1" resource="0"
+            file="Source/GrainScheduler.cpp"/>
+      <FILE id="ZbJR4V" name="GrainScheduler.h" compile="0" resource="0"
+            file="Source/GrainScheduler.h"/>
       <FILE id="M20OVH" name="Grain.cpp" compile="1" resource="0" file="Source/Grain.cpp"/>
       <FILE id="SJFKJ5" name="Grain.h" compile="0" resource="0" file="Source/Grain.h"/>
       <FILE id="yp8aeM" name="FourPointInterpolate.cpp" compile="1" resource="0"
@@ -31,8 +40,12 @@
             file="Source/FourPointInterpolate.h"/>
       <FILE id="ae3ZGv" name="TukeyWindow.cpp" compile="1" resource="0" file="Source/TukeyWindow.cpp"/>
       <FILE id="FdSd7R" name="TukeyWindow.h" compile="0" resource="0" file="Source/TukeyWindow.h"/>
-      <FILE id="Lup14K" name="SawLFO.cpp" compile="1" resource="0" file="Source/SawLFO.cpp"/>
-      <FILE id="whWZe8" name="SawLFO.h" compile="0" resource="0" file="Source/SawLFO.h"/>
+      <FILE id="AhqgRU" name="AudioLiveScrollingDisplay.h" compile="0" resource="0"
+            file="Source/AudioLiveScrollingDisplay.h"/>
+      <FILE id="HksN4k" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/CustomLookAndFeel.cpp"/>
+      <FILE id="Lko64L" name="CustomLookAndFeel.h" compile="0" resource="0"
+            file="Source/CustomLookAndFeel.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

@@ -18,17 +18,58 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
-    
+    setSize (600, 280);
+    LookAndFeel::setDefaultLookAndFeel(&myLookAndFeel);
+    //Slider 1
     Slider1.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    Slider1.setSliderStyle(Slider::Rotary);
+    Slider1.setSliderStyle(Slider::RotaryVerticalDrag);
     Slider1.setRange(0.0, 1.0);
     Slider1.addListener(this);
-    Slider1.setBounds(10, 10, 300, 300);
+    Slider1.setBounds(60, 28, 75, 75);
     addAndMakeVisible(Slider1);
     
+    Label1.setText("Pitch", dontSendNotification);
+    Label1.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
+    Label1.attachToComponent(&Slider1, true);
+    addAndMakeVisible(Label1);
     
-    button1.setBounds(220,40,60,30);
+    Slider2.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    Slider2.setSliderStyle(Slider::RotaryVerticalDrag);
+    Slider2.setRange(0.0, 1.0);
+    Slider2.addListener(this);
+    Slider2.setBounds(160, 88, 75, 75);
+    addAndMakeVisible(Slider2);
+    
+    Label2.setText("Density", dontSendNotification);
+    Label2.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
+    Label2.attachToComponent(&Slider2, true);
+    addAndMakeVisible(Label2);
+    
+    Slider3.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    Slider3.setSliderStyle(Slider::RotaryVerticalDrag);
+    Slider3.setRange(0.0, 1.0);
+    Slider3.addListener(this);
+    Slider3.setBounds(260, 28, 75, 75);
+    addAndMakeVisible(Slider3);
+    
+    Label3.setText("Grain Size", dontSendNotification);
+    Label3.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
+    Label3.attachToComponent(&Slider3, true);
+    addAndMakeVisible(Label3);
+    
+    Slider4.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    Slider4.setSliderStyle(Slider::RotaryVerticalDrag);
+    Slider4.setRange(0.0, 1.0);
+    Slider4.addListener(this);
+    Slider4.setBounds(360, 88, 75, 75);
+    addAndMakeVisible(Slider4);
+    
+    Label4.setText("Slider-4", dontSendNotification);
+    Label4.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
+    Label4.attachToComponent(&Slider4, true);
+    addAndMakeVisible(Label4);
+    
+    button1.setBounds(500,28,80,20);
     button1.addMouseListener(this, true);
     addAndMakeVisible(&button1);
     
@@ -45,11 +86,40 @@ MumuAudioGranularAudioProcessorEditor::~MumuAudioGranularAudioProcessorEditor()
 //==============================================================================
 void MumuAudioGranularAudioProcessorEditor::paint (Graphics& g)
 {
-    g.fillAll (Colours::white);
+    g.fillAll (Colour(30,30,30));
+    g.setGradientFill(ColourGradient(Colour(255,255,255), 0, 0, Colour(211,211,211), 600, 0, false));
+    //top rectangle
+    g.fillRoundedRectangle(0,6,600,8,2);
+    
+    g.setGradientFill(ColourGradient(Colour(255,255,255), 0, 280, Colour(211,211,211), 300, 280, false));
+    //lower rectangle & text
+    //first half
+    g.fillRoundedRectangle(0,263,370,8,2);
+    //text
+    g.setColour(Colour(uint8(211),uint8(211),uint8(211),float(1)));
+    g.setFont (Font("Arial", 10, Font::bold + Font::italic));
+    g.drawSingleLineText(" Mumu[Audio] | MNML Granular | CalArts MTIID", 370, 270);
+    //second rect
+    g.fillRoundedRectangle(572,263,26,8,2);
+    
+    Image Logo = ImageCache::getFromMemory(BinaryData::MumuLight_png, BinaryData::MumuLight_pngSize);
+    //g.drawImageAt(Logo, 10, 40);
+    g.drawImage(Logo, 10, 218, 65, 35, 0, 0, 115, 65);
+    Image MTIID = ImageCache::getFromMemory(BinaryData::MTIID_png, BinaryData::MTIID_pngSize);
+    //g.drawImageAt(Logo, 10, 40);
+    g.drawImage(MTIID, 83, 220, 85, 30, 0, 0, 190, 95);
+    
+    //vert
+    g.fillRoundedRectangle(171,208,1,55,0);
+    //horizontal
+    g.fillRoundedRectangle(0,208,600,1,0);
 }
 
 void MumuAudioGranularAudioProcessorEditor::timerCallback(){
     Slider1.setValue(processor.slider1Param->getValue(), dontSendNotification);
+    Slider2.setValue(processor.slider2Param->getValue(), dontSendNotification);
+    Slider3.setValue(processor.slider3Param->getValue(), dontSendNotification);
+    Slider4.setValue(processor.slider4Param->getValue(), dontSendNotification);
 }
 
 void MumuAudioGranularAudioProcessorEditor::sliderValueChanged (Slider* sliderThatHasChanged){
@@ -58,6 +128,21 @@ void MumuAudioGranularAudioProcessorEditor::sliderValueChanged (Slider* sliderTh
         processor.slider1Param->beginChangeGesture();
         processor.slider1Param->setValueNotifyingHost(sliderThatHasChanged->getValue());
         processor.slider1Param->endChangeGesture();
+    }
+    if (sliderThatHasChanged == &Slider2) {
+        processor.slider2Param->beginChangeGesture();
+        processor.slider2Param->setValueNotifyingHost(sliderThatHasChanged->getValue());
+        processor.slider2Param->endChangeGesture();
+    }
+    if (sliderThatHasChanged == &Slider3) {
+        processor.slider3Param->beginChangeGesture();
+        processor.slider3Param->setValueNotifyingHost(sliderThatHasChanged->getValue());
+        processor.slider3Param->endChangeGesture();
+    }
+    if (sliderThatHasChanged == &Slider4) {
+        processor.slider4Param->beginChangeGesture();
+        processor.slider4Param->setValueNotifyingHost(sliderThatHasChanged->getValue());
+        processor.slider4Param->endChangeGesture();
     }
 }
 

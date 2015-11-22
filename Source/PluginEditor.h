@@ -13,6 +13,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "CustomLookAndFeel.h"
+
 
 
 //==============================================================================
@@ -36,15 +38,24 @@ public:
     void mouseUp (const MouseEvent &e) override;
 
 private:
+    // This reference is provided as a quick way for your editor to
+    // access the processor object that created it.
+    MumuAudioGranularAudioProcessor& processor;
+    
     Slider Slider1;
     Slider Slider2;
     Slider Slider3;
     Slider Slider4;
     
+    Label Label1;
+    Label Label2;
+    Label Label3;
+    Label Label4;
+    
     TextButton button1;
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
-    MumuAudioGranularAudioProcessor& processor;
+    
+    CustomLookAndFeel myLookAndFeel;
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MumuAudioGranularAudioProcessorEditor)
 };
