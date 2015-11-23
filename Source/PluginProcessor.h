@@ -20,7 +20,8 @@
 //==============================================================================
 /**
 */
-class MumuAudioGranularAudioProcessor  : public AudioProcessor
+class MumuAudioGranularAudioProcessor  : public AudioProcessor,
+                                         public ChangeBroadcaster
 {
 public:
     //==============================================================================
@@ -67,6 +68,8 @@ public:
     AudioProcessorParameter* slider4Param;
     
     AudioProcessorParameter* button1Param;
+    
+    AudioSampleBuffer currentSampleBuffer;
 
 private:
     

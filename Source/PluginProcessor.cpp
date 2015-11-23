@@ -155,8 +155,7 @@ void MumuAudioGranularAudioProcessor::prepareToPlay (double sampleRate, int samp
 
 void MumuAudioGranularAudioProcessor::releaseResources()
 {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
+    sendChangeMessage();
 }
 
 void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
@@ -173,6 +172,7 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
     float pitch = jmap(slider1Param->getValue(), 0.001f, 2.0f);
     float density = jmap(slider2Param->getValue(), 0.015f, 1.0f);
     float grainSize = jmap(slider3Param->getValue(), 0.03f, 0.5f);
+    float dryWet = slider4Param->getValue();
     m_SchedulerL.setInteronset(m_fSampleRate, density);
     m_SchedulerR.setInteronset(m_fSampleRate, density);
     
@@ -205,7 +205,7 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
                 {
                     output += grainp_ArrayL[i].play(m_fSampleRate, m_gBufferL);
                 }
-                channelData[i] = output;
+                channelData[i] = (output * dryWet) + ((1 - dryWet) * channelData[i]);
             }
             if (channel == 1)
             {
@@ -231,10 +231,13 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
                 {
                     output += grainp_ArrayR[i].play(m_fSampleRate, m_gBufferR);
                 }
-                channelData[i] = output;
+                channelData[i] = (output * dryWet) + ((1 - dryWet) * channelData[i]);
             }
         } 
     }
+    currentSampleBuffer = buffer;
+    sendChangeMessage();
+
 }
 
 //==============================================================================

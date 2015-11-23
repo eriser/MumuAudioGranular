@@ -14,6 +14,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "CustomLookAndFeel.h"
+#include "AudioLiveScrollingDisplay.h"
 
 
 
@@ -22,6 +23,7 @@
 */
 class MumuAudioGranularAudioProcessorEditor  : public AudioProcessorEditor,
                                                public Slider::Listener,
+                                               public ChangeListener,
                                                public Timer
 {
 public:
@@ -34,6 +36,8 @@ public:
     void timerCallback() override;
     void sliderValueChanged (Slider* sliderThatHasChanged) override;
     
+    void changeListenerCallback (ChangeBroadcaster *source) override;
+    
     void mouseDown (const MouseEvent &e) override;
     void mouseUp (const MouseEvent &e) override;
 
@@ -41,6 +45,8 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     MumuAudioGranularAudioProcessor& processor;
+    
+    ScopedPointer<LiveScrollingAudioDisplay> liveAudioScroller;
     
     Slider Slider1;
     Slider Slider2;

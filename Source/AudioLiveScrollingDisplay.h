@@ -26,7 +26,6 @@
 #define __AUDIOLIVESCROLLINGDISPLAY_H_4C3BD3A7__
 
 #include "../JuceLibraryCode/JuceHeader.h"
-//#include <queue>
 
 
 //==============================================================================

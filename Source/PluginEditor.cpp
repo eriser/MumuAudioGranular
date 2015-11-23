@@ -20,6 +20,11 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
     // editor's size to whatever you need it to be.
     setSize (600, 280);
     LookAndFeel::setDefaultLookAndFeel(&myLookAndFeel);
+    
+    addAndMakeVisible (liveAudioScroller = new LiveScrollingAudioDisplay());
+    liveAudioScroller->setBounds (172, 210, 428, 50);
+    liveAudioScroller->clearLiveScrollingAudioDisplay();
+    processor.addChangeListener(this);
     //Slider 1
     Slider1.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     Slider1.setSliderStyle(Slider::RotaryVerticalDrag);
@@ -52,7 +57,7 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
     Slider3.setBounds(260, 28, 75, 75);
     addAndMakeVisible(Slider3);
     
-    Label3.setText("Grain Size", dontSendNotification);
+    Label3.setText("GrainSize", dontSendNotification);
     Label3.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
     Label3.attachToComponent(&Slider3, true);
     addAndMakeVisible(Label3);
@@ -64,7 +69,7 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
     Slider4.setBounds(360, 88, 75, 75);
     addAndMakeVisible(Slider4);
     
-    Label4.setText("Slider-4", dontSendNotification);
+    Label4.setText("Dry/Wet", dontSendNotification);
     Label4.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
     Label4.attachToComponent(&Slider4, true);
     addAndMakeVisible(Label4);
@@ -81,6 +86,7 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
 
 MumuAudioGranularAudioProcessorEditor::~MumuAudioGranularAudioProcessorEditor()
 {
+    processor.removeChangeListener(this);
 }
 
 //==============================================================================
@@ -158,5 +164,9 @@ void MumuAudioGranularAudioProcessorEditor::mouseUp(const MouseEvent & e) {
     {
         processor.button1Param->setValueNotifyingHost(button1.isDown());
     }
+}
+
+void MumuAudioGranularAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster *source){
+    liveAudioScroller->processBlock(processor.currentSampleBuffer);
 }
 
