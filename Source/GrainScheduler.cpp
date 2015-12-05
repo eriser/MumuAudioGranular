@@ -9,6 +9,7 @@
 */
 
 #include "GrainScheduler.h"
+#include <iostream>
 
 GrainScheduler::GrainScheduler(){
     m_fDelta = 0;

@@ -46,7 +46,7 @@ private:
     // access the processor object that created it.
     MumuAudioGranularAudioProcessor& processor;
     
-    ScopedPointer<LiveScrollingAudioDisplay> liveAudioScroller;
+//    ScopedPointer<LiveScrollingAudioDisplay> liveAudioScroller;
     
     Slider Slider1;
     Slider Slider2;
@@ -61,7 +61,8 @@ private:
     TextButton button1;
     
     CustomLookAndFeel myLookAndFeel;
-
+    
+//    bool falseFlag = false;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MumuAudioGranularAudioProcessorEditor)
 };

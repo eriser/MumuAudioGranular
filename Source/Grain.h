@@ -20,7 +20,7 @@ class Grain
 public:
     Grain();
     ~Grain();
-    void setDelta(float sampleRate, float seconds);
+    void setDelta(float sampleRate, float samples);
     void setWindowSize(int sampleRate, float seconds);
     void init(float pitch, GranularBuffer& buffer);
     int isItBusy();

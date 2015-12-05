@@ -193,7 +193,12 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
                         if(grainp_ArrayL[i].isItBusy() == 0)
                         {
                             grainp_ArrayL[i].setWindowSize(m_fSampleRate, grainSize);
-                            grainp_ArrayL[i].setDelta(m_fSampleRate, 0.1);
+                            float delta = 0;
+                            if (pitch > 1)
+                            {
+                                delta = (pitch-1)*(grainSize*m_fSampleRate);
+                            }
+                            grainp_ArrayL[i].setDelta(m_fSampleRate, delta);
                             grainp_ArrayL[i].init(pitch, m_gBufferL);
                             grainp_ArrayL[i].isBusy = 1;
                             break;
@@ -219,7 +224,12 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
                         if(grainp_ArrayR[i].isItBusy() == 0)
                         {
                             grainp_ArrayR[i].setWindowSize(m_fSampleRate, grainSize);
-                            grainp_ArrayR[i].setDelta(m_fSampleRate, 0.1);
+                            float delta = 0;
+                            if (pitch > 1)
+                            {
+                                delta = (pitch-1)*(grainSize*m_fSampleRate);
+                            }
+                            grainp_ArrayR[i].setDelta(m_fSampleRate, delta);
                             grainp_ArrayR[i].init(pitch, m_gBufferR);
                             grainp_ArrayR[i].isBusy = 1;
                             break;
@@ -235,9 +245,9 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
             }
         } 
     }
-    currentSampleBuffer = buffer;
-    sendChangeMessage();
-
+//    std::shared_ptr<AudioSampleBuffer> newBuffer = std::make_shared<AudioSampleBuffer>(buffer);
+//    std::atomic_store(&sharedSampleBuffer, newBuffer);
+//    guiUpToDate.store(false);
 }
 
 //==============================================================================

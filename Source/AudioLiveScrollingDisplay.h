@@ -46,23 +46,19 @@ public:
     }
 
     //==============================================================================
-    void processBlock (AudioSampleBuffer inputChannelData)
+    void processBlock (std::shared_ptr<AudioSampleBuffer> inputChannelData)
     {
-        int numSamples = inputChannelData.getNumSamples();
+        int numSamples = inputChannelData->getNumSamples();
         
         for (int i = 0; i < numSamples; ++i)
         {
             float inputSample = 0;
 
-            for (int chan = 0; chan < inputChannelData.getNumChannels(); ++chan)
-                if (inputChannelData.getReadPointer(chan) != nullptr)
+            for (int chan = 0; chan < inputChannelData->getNumChannels(); ++chan)
+                if (inputChannelData->getReadPointer(chan) != nullptr)
                 {
-                    const float* currentChannel = inputChannelData.getReadPointer(chan);
+                    const float* currentChannel = inputChannelData->getReadPointer(chan);
                     inputSample += std::abs (currentChannel[i]);  // find the sum of all the channels
-                    if (inputSample > 5)
-                    {
-                        inputSample = 5;
-                    }
                 }
             pushSample (1.0f * inputSample + .01); // boost the level to make it more easily visible.
         }

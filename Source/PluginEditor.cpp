@@ -21,10 +21,12 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
     setSize (600, 280);
     LookAndFeel::setDefaultLookAndFeel(&myLookAndFeel);
     
-    addAndMakeVisible (liveAudioScroller = new LiveScrollingAudioDisplay());
-    liveAudioScroller->setBounds (172, 210, 428, 50);
-    liveAudioScroller->clearLiveScrollingAudioDisplay();
+//    addAndMakeVisible (liveAudioScroller = new LiveScrollingAudioDisplay());
+//    liveAudioScroller->setBounds (172, 210, 428, 50);
+//    liveAudioScroller->clearLiveScrollingAudioDisplay();
+    
     processor.addChangeListener(this);
+    
     //Slider 1
     Slider1.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     Slider1.setSliderStyle(Slider::RotaryVerticalDrag);
@@ -126,6 +128,12 @@ void MumuAudioGranularAudioProcessorEditor::timerCallback(){
     Slider2.setValue(processor.slider2Param->getValue(), dontSendNotification);
     Slider3.setValue(processor.slider3Param->getValue(), dontSendNotification);
     Slider4.setValue(processor.slider4Param->getValue(), dontSendNotification);
+    
+//    if (processor.guiUpToDate.compare_exchange_strong(falseFlag, true))
+//    {
+//        
+//        liveAudioScroller->processBlock(std::atomic_load(&processor.sharedSampleBuffer));
+//    }
 }
 
 void MumuAudioGranularAudioProcessorEditor::sliderValueChanged (Slider* sliderThatHasChanged){
@@ -167,6 +175,6 @@ void MumuAudioGranularAudioProcessorEditor::mouseUp(const MouseEvent & e) {
 }
 
 void MumuAudioGranularAudioProcessorEditor::changeListenerCallback (ChangeBroadcaster *source){
-    liveAudioScroller->processBlock(processor.currentSampleBuffer);
+//    liveAudioScroller->processBlock(processor.sharedSampleBuffer);
 }
 

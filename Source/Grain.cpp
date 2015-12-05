@@ -20,8 +20,8 @@ Grain::~Grain(){
     
 }
 
-void Grain::setDelta(float sampleRate, float seconds){
-    m_nDelta = seconds * sampleRate;
+void Grain::setDelta(float sampleRate, float samples){
+    m_nDelta = samples;
 }
 
 void Grain::setWindowSize(int sampleRate, float seconds){
@@ -57,7 +57,6 @@ float Grain::play(int sampleRate, GranularBuffer& buffer){
     }
     float yn_p1 = buffer.pBuffer[p1point];
     float fFracDelay = grainIndex - (int)grainIndex;
-    
     
     float output = FourPointInterpolate(yn, yn_p1, yn_f1, yn_f2, fFracDelay);
     

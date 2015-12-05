@@ -69,10 +69,14 @@ public:
     
     AudioProcessorParameter* button1Param;
     
-    AudioSampleBuffer currentSampleBuffer;
+//    //AudioSampleBuffer currentSampleBuffer;
+//    std::atomic<bool> guiUpToDate;
+//    std::shared_ptr<AudioSampleBuffer> sharedSampleBuffer;
 
-private:
     
+private:
+    //AudioSampleBuffer currentSampleBuffer;
+
     GranularBuffer m_gBufferL;
     GranularBuffer m_gBufferR;
     
