@@ -40,6 +40,10 @@
             file="Source/FourPointInterpolate.h"/>
       <FILE id="ae3ZGv" name="TukeyWindow.cpp" compile="1" resource="0" file="Source/TukeyWindow.cpp"/>
       <FILE id="FdSd7R" name="TukeyWindow.h" compile="0" resource="0" file="Source/TukeyWindow.h"/>
+      <FILE id="bIiLpf" name="EnvelopeGenerator.cpp" compile="1" resource="0"
+            file="Source/EnvelopeGenerator.cpp"/>
+      <FILE id="XkTBE6" name="EnvelopeGenerator.h" compile="0" resource="0"
+            file="Source/EnvelopeGenerator.h"/>
       <FILE id="AhqgRU" name="AudioLiveScrollingDisplay.h" compile="0" resource="0"
             file="Source/AudioLiveScrollingDisplay.h"/>
       <FILE id="HksN4k" name="CustomLookAndFeel.cpp" compile="1" resource="0"

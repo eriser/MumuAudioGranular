@@ -15,6 +15,7 @@
 #include "GranularBuffer.h"
 #include "GrainScheduler.h"
 #include "Grain.h"
+#include "EnvelopeGenerator.h"
 //test
 
 
@@ -89,6 +90,12 @@ private:
     Grain* grainp_ArrayR;
     
     float m_fSampleRate;
+    
+    EnvelopeGenerator m_ADSR_Left;
+    int m_ADSR_Left_Started;
+    
+    EnvelopeGenerator m_ADSR_Right;
+    int m_ADSR_Right_Started;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MumuAudioGranularAudioProcessor)
 };

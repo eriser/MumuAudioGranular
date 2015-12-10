@@ -27,8 +27,11 @@ MumuAudioGranularAudioProcessor::MumuAudioGranularAudioProcessor() : grainp_Arra
     addParameter(slider2Param = new AudioParameterFloat("slider2Param", "Slider2", 0.0, 1.0, 0.5));
     addParameter(slider3Param = new AudioParameterFloat("slider3Param", "Slider3", 0.0, 1.0, 0.5));
     addParameter(slider4Param = new AudioParameterFloat("slider4Param", "Slider4", 0.0, 1.0, 0.5));
-    
+    //Button Param
     addParameter(button1Param = new AudioParameterBool("button1Param", "Button1" , 0));
+    
+    m_ADSR_Left_Started = 0;
+    m_ADSR_Right_Started = 0;
 }
 
 MumuAudioGranularAudioProcessor::~MumuAudioGranularAudioProcessor()
@@ -151,6 +154,9 @@ void MumuAudioGranularAudioProcessor::prepareToPlay (double sampleRate, int samp
     m_SchedulerL.prepareToPlay();
     m_SchedulerR.prepareToPlay();
     
+    m_ADSR_Left.setSampleRate(m_fSampleRate);
+    m_ADSR_Right.setSampleRate(m_fSampleRate);
+    
 }
 
 void MumuAudioGranularAudioProcessor::releaseResources()
@@ -160,22 +166,19 @@ void MumuAudioGranularAudioProcessor::releaseResources()
 
 void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // I've added this to avoid people getting screaming feedback
-    // when they first compile the plugin, but obviously you don't need to
-    // this code if your algorithm already fills all the output channels.
+    //Clear Garbage Data
     for (int i = getNumInputChannels(); i < getNumOutputChannels(); ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
-    
+    //Get Parameters
     float pitch = jmap(slider1Param->getValue(), 0.001f, 2.0f);
-    float density = jmap(slider2Param->getValue(), 0.015f, 1.0f);
+    float density = jmap(slider2Param->getValue(), 0.015f, 0.6f);
     float grainSize = jmap(slider3Param->getValue(), 0.03f, 0.5f);
     float dryWet = slider4Param->getValue();
+    int buttonState = button1Param->getValue();
+    //Set Interonset Time
     m_SchedulerL.setInteronset(m_fSampleRate, density);
     m_SchedulerR.setInteronset(m_fSampleRate, density);
-    
+    //Parse Buffers And Process Samples
     for (int channel = 0; channel < getNumInputChannels(); ++channel)
     {
         float* channelData = buffer.getWritePointer (channel);
@@ -186,25 +189,44 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
             {
                 m_gBufferL.process(channelData[i]);
                 m_SchedulerL.play();
-                if (m_SchedulerL.bang() == true)
+                //////Real Time Pitch Shift//////
+                if (buttonState == 0)
                 {
-                    for (int i = 0; i < m_nNumberGrains; i++)
+                    //Turn off our envelope on flag
+                    m_ADSR_Left_Started = 0;
+                    
+                    if (m_SchedulerL.bang() == true)
                     {
-                        if(grainp_ArrayL[i].isItBusy() == 0)
+                        for (int i = 0; i < m_nNumberGrains; i++)
                         {
-                            grainp_ArrayL[i].setWindowSize(m_fSampleRate, grainSize);
-                            float delta = 0;
-                            if (pitch > 1)
+                            if(grainp_ArrayL[i].isItBusy() == 0)
                             {
-                                delta = (pitch-1)*(grainSize*m_fSampleRate);
+                                grainp_ArrayL[i].setWindowSize(m_fSampleRate, grainSize);
+                                float delta = 0;
+                                if (pitch > 1)
+                                {
+                                    delta = (pitch-1)*(grainSize*m_fSampleRate);
+                                }
+                                grainp_ArrayL[i].setDelta(m_fSampleRate, delta);
+                                grainp_ArrayL[i].init(pitch, m_gBufferL);
+                                grainp_ArrayL[i].isBusy = 1;
+                                break;
                             }
-                            grainp_ArrayL[i].setDelta(m_fSampleRate, delta);
-                            grainp_ArrayL[i].init(pitch, m_gBufferL);
-                            grainp_ArrayL[i].isBusy = 1;
-                            break;
                         }
                     }
                 }
+                //////Time Stretch//////
+                if (buttonState == 1)
+                {
+                    if (m_ADSR_Left_Started != 1)
+                    {
+                        m_ADSR_Left.enterStage(EnvelopeGenerator::ENVELOPE_STAGE_ATTACK);
+                        m_ADSR_Left_Started = 1;
+                    }
+                    const float leftEnvValue = m_ADSR_Left.nextSample();
+                    //Do Time Stretching
+                }
+                /////Generate Output////
                 float output = 0;
                 for (int i = 0; i < m_nNumberGrains; i++)
                 {
@@ -216,26 +238,42 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
             {
                 m_gBufferR.process(channelData[i]);
                 m_SchedulerR.play();
-                if (m_SchedulerR.bang() == true)
+                //////Real Time Pitch Shift//////
+                if (buttonState == 0)
                 {
-                    //std::cout << "bangR" << std::endl;
-                    for (int i = 0; i < m_nNumberGrains; i++)
+                    if (m_SchedulerR.bang() == true)
                     {
-                        if(grainp_ArrayR[i].isItBusy() == 0)
+                        //std::cout << "bangR" << std::endl;
+                        for (int i = 0; i < m_nNumberGrains; i++)
                         {
-                            grainp_ArrayR[i].setWindowSize(m_fSampleRate, grainSize);
-                            float delta = 0;
-                            if (pitch > 1)
+                            if(grainp_ArrayR[i].isItBusy() == 0)
                             {
-                                delta = (pitch-1)*(grainSize*m_fSampleRate);
+                                grainp_ArrayR[i].setWindowSize(m_fSampleRate, grainSize);
+                                float delta = 0;
+                                if (pitch > 1)
+                                {
+                                    delta = (pitch-1)*(grainSize*m_fSampleRate);
+                                }
+                                grainp_ArrayR[i].setDelta(m_fSampleRate, delta);
+                                grainp_ArrayR[i].init(pitch, m_gBufferR);
+                                grainp_ArrayR[i].isBusy = 1;
+                                break;
                             }
-                            grainp_ArrayR[i].setDelta(m_fSampleRate, delta);
-                            grainp_ArrayR[i].init(pitch, m_gBufferR);
-                            grainp_ArrayR[i].isBusy = 1;
-                            break;
                         }
                     }
                 }
+                //////Time Stretch//////
+                if (buttonState == 1)
+                {
+                    if (m_ADSR_Right_Started != 1)
+                    {
+                        m_ADSR_Right.enterStage(EnvelopeGenerator::ENVELOPE_STAGE_ATTACK);
+                        m_ADSR_Right_Started = 1;
+                    }
+                    const float rightEnvValue = m_ADSR_Right.nextSample();
+                    // Do Time Stretching
+                }
+                /////Generate Output////
                 float output = 0;
                 for (int i = 0; i < m_nNumberGrains; i++)
                 {
@@ -248,6 +286,7 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
 //    std::shared_ptr<AudioSampleBuffer> newBuffer = std::make_shared<AudioSampleBuffer>(buffer);
 //    std::atomic_store(&sharedSampleBuffer, newBuffer);
 //    guiUpToDate.store(false);
+//    std::cout << buttonState << std::endl;
 }
 
 //==============================================================================
