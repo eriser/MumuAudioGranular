@@ -19,8 +19,8 @@ EnvelopeGenerator::EnvelopeGenerator() :    mCurrentStage(ENVELOPE_STAGE_OFF),
 {
     //The Envelope Stages are in Time (seconds), Except the sustain which is the volume of the sustain of the synth
     stageValue[ENVELOPE_STAGE_OFF] = 0.0;
-    stageValue[ENVELOPE_STAGE_ATTACK] = 0.8;
-    stageValue[ENVELOPE_STAGE_DECAY] = 0.5;
+    stageValue[ENVELOPE_STAGE_ATTACK] = 4.0;
+    stageValue[ENVELOPE_STAGE_DECAY] = .01;
     stageValue[ENVELOPE_STAGE_SUSTAIN] = 1.0;
     stageValue[ENVELOPE_STAGE_RELEASE] = 1.0;
 }

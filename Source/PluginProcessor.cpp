@@ -145,10 +145,10 @@ void MumuAudioGranularAudioProcessor::prepareToPlay (double sampleRate, int samp
         grainp_ArrayR[i].isBusy = 0;
     }
     //set up grain buffers (audio data)
-    m_gBufferL.setBufferLength(sampleRate, 1);
+    m_gBufferL.setBufferLength(sampleRate, 5);
     m_gBufferL.prepareToPlay();
     
-    m_gBufferR.setBufferLength(sampleRate, 1);
+    m_gBufferR.setBufferLength(sampleRate, 5);
     m_gBufferR.prepareToPlay();
     //initialize Schedulers
     m_SchedulerL.prepareToPlay();
@@ -222,9 +222,26 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
                     {
                         m_ADSR_Left.enterStage(EnvelopeGenerator::ENVELOPE_STAGE_ATTACK);
                         m_ADSR_Left_Started = 1;
+                        stretchDeltaL = 0;
                     }
-                    const float leftEnvValue = m_ADSR_Left.nextSample();
+                    const float leftEnvValue = (m_ADSR_Left.nextSample()*4.5)*m_fSampleRate;
+                    stretchDeltaL += .9;
+                    //std::cout << stretchDeltaL << std::endl;
                     //Do Time Stretching
+                    if (m_SchedulerL.bang() == true)
+                    {
+                        for (int i = 0; i < m_nNumberGrains; i++)
+                        {
+                            if(grainp_ArrayL[i].isItBusy() == 0)
+                            {
+                                grainp_ArrayL[i].setWindowSize(m_fSampleRate, grainSize);
+                                grainp_ArrayL[i].setDelta(m_fSampleRate, stretchDeltaL);
+                                grainp_ArrayL[i].init(pitch, m_gBufferL);
+                                grainp_ArrayL[i].isBusy = 1;
+                                break;
+                            }
+                        }
+                    }
                 }
                 /////Generate Output////
                 float output = 0;
@@ -241,6 +258,7 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
                 //////Real Time Pitch Shift//////
                 if (buttonState == 0)
                 {
+                    m_ADSR_Right_Started = 0;
                     if (m_SchedulerR.bang() == true)
                     {
                         //std::cout << "bangR" << std::endl;
@@ -269,9 +287,27 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
                     {
                         m_ADSR_Right.enterStage(EnvelopeGenerator::ENVELOPE_STAGE_ATTACK);
                         m_ADSR_Right_Started = 1;
+                        stretchDeltaR = 0;
                     }
-                    const float rightEnvValue = m_ADSR_Right.nextSample();
+                    const float rightEnvValue = (m_ADSR_Right.nextSample()*4.5) * m_fSampleRate;
+                    stretchDeltaR += .9;
+                    //std::cout << rightEnvValue << std::endl;
                     // Do Time Stretching
+                    if (m_SchedulerR.bang() == true)
+                    {
+                        //std::cout << "bangR" << std::endl;
+                        for (int i = 0; i < m_nNumberGrains; i++)
+                        {
+                            if(grainp_ArrayR[i].isItBusy() == 0)
+                            {
+                                grainp_ArrayR[i].setWindowSize(m_fSampleRate, grainSize);
+                                grainp_ArrayR[i].setDelta(m_fSampleRate, stretchDeltaR);
+                                grainp_ArrayR[i].init(pitch, m_gBufferR);
+                                grainp_ArrayR[i].isBusy = 1;
+                                break;
+                            }
+                        }
+                    }
                 }
                 /////Generate Output////
                 float output = 0;

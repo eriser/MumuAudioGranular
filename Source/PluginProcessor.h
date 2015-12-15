@@ -93,9 +93,11 @@ private:
     
     EnvelopeGenerator m_ADSR_Left;
     int m_ADSR_Left_Started;
+    float stretchDeltaL;
     
     EnvelopeGenerator m_ADSR_Right;
     int m_ADSR_Right_Started;
+    float stretchDeltaR;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MumuAudioGranularAudioProcessor)
 };

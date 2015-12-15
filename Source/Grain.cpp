@@ -21,7 +21,7 @@ Grain::~Grain(){
 }
 
 void Grain::setDelta(float sampleRate, float samples){
-    m_nDelta = samples;
+    m_nDelta = (int)samples;
 }
 
 void Grain::setWindowSize(int sampleRate, float seconds){
