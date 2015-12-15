@@ -27,6 +27,7 @@ MumuAudioGranularAudioProcessor::MumuAudioGranularAudioProcessor() : grainp_Arra
     addParameter(slider2Param = new AudioParameterFloat("slider2Param", "Slider2", 0.0, 1.0, 0.5));
     addParameter(slider3Param = new AudioParameterFloat("slider3Param", "Slider3", 0.0, 1.0, 0.5));
     addParameter(slider4Param = new AudioParameterFloat("slider4Param", "Slider4", 0.0, 1.0, 0.5));
+    addParameter(slider5Param = new AudioParameterFloat("slider5Param", "Slider5", 0.0, 1.0, 0.5));
     //Button Param
     addParameter(button1Param = new AudioParameterBool("button1Param", "Button1" , 0));
     
@@ -145,10 +146,10 @@ void MumuAudioGranularAudioProcessor::prepareToPlay (double sampleRate, int samp
         grainp_ArrayR[i].isBusy = 0;
     }
     //set up grain buffers (audio data)
-    m_gBufferL.setBufferLength(sampleRate, 5);
+    m_gBufferL.setBufferLength(sampleRate, m_fMaxBufferLength);
     m_gBufferL.prepareToPlay();
     
-    m_gBufferR.setBufferLength(sampleRate, 5);
+    m_gBufferR.setBufferLength(sampleRate, m_fMaxBufferLength);
     m_gBufferR.prepareToPlay();
     //initialize Schedulers
     m_SchedulerL.prepareToPlay();
@@ -175,6 +176,7 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
     float grainSize = jmap(slider3Param->getValue(), 0.03f, 0.5f);
     float dryWet = slider4Param->getValue();
     int buttonState = button1Param->getValue();
+    float stretchSpeed = slider5Param->getValue();
     //Set Interonset Time
     m_SchedulerL.setInteronset(m_fSampleRate, density);
     m_SchedulerR.setInteronset(m_fSampleRate, density);
@@ -225,7 +227,7 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
                         stretchDeltaL = 0;
                     }
                     const float leftEnvValue = (m_ADSR_Left.nextSample()*4.5)*m_fSampleRate;
-                    stretchDeltaL += .9;
+                    stretchDeltaL = fmod((stretchDeltaL + stretchSpeed), m_gBufferL.getBufferLength());
                     //std::cout << stretchDeltaL << std::endl;
                     //Do Time Stretching
                     if (m_SchedulerL.bang() == true)
@@ -290,7 +292,7 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
                         stretchDeltaR = 0;
                     }
                     const float rightEnvValue = (m_ADSR_Right.nextSample()*4.5) * m_fSampleRate;
-                    stretchDeltaR += .9;
+                    stretchDeltaR = fmod((stretchDeltaR+stretchSpeed), m_gBufferR.getBufferLength());
                     //std::cout << rightEnvValue << std::endl;
                     // Do Time Stretching
                     if (m_SchedulerR.bang() == true)

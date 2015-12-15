@@ -29,7 +29,11 @@ GranularBuffer::~GranularBuffer()
 void GranularBuffer::setBufferLength(float sampleRate, float seconds)
 {
     nBufferSize = sampleRate * seconds;
-    
+}
+
+int GranularBuffer::getBufferLength()
+{
+    return (int)nBufferSize;
 }
 
 void GranularBuffer::prepareToPlay()

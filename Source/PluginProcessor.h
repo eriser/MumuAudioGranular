@@ -68,6 +68,7 @@ public:
     AudioProcessorParameter* slider2Param;
     AudioProcessorParameter* slider3Param;
     AudioProcessorParameter* slider4Param;
+    AudioProcessorParameter* slider5Param;
     
     AudioProcessorParameter* button1Param;
     
@@ -81,6 +82,7 @@ private:
 
     GranularBuffer m_gBufferL;
     GranularBuffer m_gBufferR;
+    const float m_fMaxBufferLength = 10.0;
     
     GrainScheduler m_SchedulerL;
     GrainScheduler m_SchedulerR;

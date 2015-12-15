@@ -76,6 +76,18 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
     Label4.attachToComponent(&Slider4, true);
     addAndMakeVisible(Label4);
     
+    Slider5.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    Slider5.setSliderStyle(Slider::RotaryVerticalDrag);
+    Slider5.setRange(0.0, 1.0);
+    Slider5.addListener(this);
+    Slider5.setBounds(500, 88, 45, 45);
+    addAndMakeVisible(Slider5);
+    
+    Label5.setText("Speed", dontSendNotification);
+    Label5.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
+    Label5.attachToComponent(&Slider5, false);
+    addAndMakeVisible(Label5);
+    
     button1.setBounds(500,28,80,20);
     button1.addMouseListener(this, true);
     addAndMakeVisible(&button1);
@@ -128,6 +140,7 @@ void MumuAudioGranularAudioProcessorEditor::timerCallback(){
     Slider2.setValue(processor.slider2Param->getValue(), dontSendNotification);
     Slider3.setValue(processor.slider3Param->getValue(), dontSendNotification);
     Slider4.setValue(processor.slider4Param->getValue(), dontSendNotification);
+    Slider5.setValue(processor.slider5Param->getValue(), dontSendNotification);
     
 //    if (processor.guiUpToDate.compare_exchange_strong(falseFlag, true))
 //    {
@@ -157,6 +170,11 @@ void MumuAudioGranularAudioProcessorEditor::sliderValueChanged (Slider* sliderTh
         processor.slider4Param->beginChangeGesture();
         processor.slider4Param->setValueNotifyingHost(sliderThatHasChanged->getValue());
         processor.slider4Param->endChangeGesture();
+    }
+    if (sliderThatHasChanged == &Slider5) {
+        processor.slider5Param->beginChangeGesture();
+        processor.slider5Param->setValueNotifyingHost(sliderThatHasChanged->getValue());
+        processor.slider5Param->endChangeGesture();
     }
 }
 

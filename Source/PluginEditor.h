@@ -52,11 +52,13 @@ private:
     Slider Slider2;
     Slider Slider3;
     Slider Slider4;
+    Slider Slider5;
     
     Label Label1;
     Label Label2;
     Label Label3;
     Label Label4;
+    Label Label5;
     
     TextButton button1;
     

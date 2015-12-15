@@ -16,6 +16,7 @@ public:
     GranularBuffer();
     ~GranularBuffer();
     void setBufferLength(float sampleRate, float seconds);
+    int getBufferLength();
     void prepareToPlay();
     void process(float input);
     
