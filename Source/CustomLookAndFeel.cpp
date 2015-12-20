@@ -23,6 +23,7 @@ CustomLookAndFeel::~CustomLookAndFeel(){
 // Based on https://github.com/audioplastic/Juce-look-and-feel-examples and JUCE Forum
 void CustomLookAndFeel::drawRotarySlider (Graphics & g, int x, int y, int width, int height,  float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, Slider & slider)
 {
+   
     // Load the image from binary data efficiently
     Image myStrip = ImageCache::getFromMemory(BinaryData::BlackKnob_png, BinaryData::BlackKnob_pngSize);
     
