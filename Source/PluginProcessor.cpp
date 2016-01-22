@@ -173,7 +173,7 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
     //Get Parameters
     float pitch = jmap(slider1Param->getValue(), 0.001f, 2.0f);
     float density = jmap(slider2Param->getValue(), 0.015f, 0.6f);
-    float grainSize = jmap(slider3Param->getValue(), 0.03f, 0.5f);
+    float grainSize = jmap(slider3Param->getValue(), 0.01f, 0.5f);
     float dryWet = slider4Param->getValue();
     int buttonState = button1Param->getValue();
     float stretchSpeed = slider5Param->getValue();
