@@ -21,10 +21,11 @@
 //==============================================================================
 /**
 */
-class MumuAudioGranularAudioProcessorEditor  : public AudioProcessorEditor,
-                                               public Slider::Listener,
-                                               public ChangeListener,
-                                               public Timer
+class MumuAudioGranularAudioProcessorEditor  :  public AudioProcessorEditor,
+                                                public Slider::Listener,
+                                                public Button::Listener,
+                                                public Timer
+                                                //public TabbedComponent
 {
 public:
     MumuAudioGranularAudioProcessorEditor (MumuAudioGranularAudioProcessor&);
@@ -36,7 +37,8 @@ public:
     void timerCallback() override;
     void sliderValueChanged (Slider* sliderThatHasChanged) override;
     
-    void changeListenerCallback (ChangeBroadcaster *source) override;
+    void buttonClicked (Button* button) override;
+    
     
     void mouseDown (const MouseEvent &e) override;
     void mouseUp (const MouseEvent &e) override;
@@ -46,7 +48,6 @@ private:
     // access the processor object that created it.
     MumuAudioGranularAudioProcessor& processor;
     
-//    ScopedPointer<LiveScrollingAudioDisplay> liveAudioScroller;
     
     Slider Slider1;
     Slider Slider2;
@@ -60,11 +61,10 @@ private:
     Label Label4;
     Label Label5;
     
-    TextButton button1;
+    ToggleButton button1;
     
     CustomLookAndFeel myLookAndFeel;
     
-//    bool falseFlag = false;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MumuAudioGranularAudioProcessorEditor)
 };

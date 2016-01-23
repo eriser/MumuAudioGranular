@@ -22,8 +22,7 @@
 //==============================================================================
 /**
 */
-class MumuAudioGranularAudioProcessor  : public AudioProcessor,
-                                         public ChangeBroadcaster
+class MumuAudioGranularAudioProcessor  : public AudioProcessor
 {
 public:
     //==============================================================================

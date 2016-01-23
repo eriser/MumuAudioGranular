@@ -162,7 +162,7 @@ void MumuAudioGranularAudioProcessor::prepareToPlay (double sampleRate, int samp
 
 void MumuAudioGranularAudioProcessor::releaseResources()
 {
-    sendChangeMessage();
+    
 }
 
 void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
