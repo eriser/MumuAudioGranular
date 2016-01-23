@@ -171,7 +171,7 @@ void MumuAudioGranularAudioProcessor::releaseResources()
 
 void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-    //Clear Garbage Data
+    //Clear Any Garbage Data
     for (int i = getNumInputChannels(); i < getNumOutputChannels(); ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     //Get Parameters
