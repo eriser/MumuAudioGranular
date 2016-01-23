@@ -14,13 +14,14 @@
 
 //==============================================================================
 MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (MumuAudioGranularAudioProcessor& p)
-: AudioProcessorEditor (&p), processor (p), Tab(TabbedButtonBar::TabsAtLeft), button1("Grain")
+: AudioProcessorEditor (&p), processor (p), Tab(TabbedButtonBar::TabsAtLeft), Tab1_stretchButton("Grain")
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (600, 280);
     LookAndFeel::setDefaultLookAndFeel(&myLookAndFeel);
     
+    //======== Tab Bar =========
     addAndMakeVisible(Tab);
     Tab.setBounds(0, 20, 20, 180);
     Tab.addTab("Pitch / Stretch", Colour(Colours::darkgrey), 1);
@@ -29,80 +30,78 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
     Tab.setAlpha(0.8);
     Tab.addChangeListener(this);
     
+    //======== Tab 1 ===========
     PitchStretch.setBounds(20, 0, 580, 280);
-    PitchStretch.addAndMakeVisible(Slider1);
-    PitchStretch.addAndMakeVisible(Slider2);
-    PitchStretch.addAndMakeVisible(Slider3);
-    PitchStretch.addAndMakeVisible(Slider4);
-    PitchStretch.addAndMakeVisible(Slider5);
-    PitchStretch.addAndMakeVisible(button1);
+    PitchStretch.addAndMakeVisible(Tab1_pitchKnob);
+    PitchStretch.addAndMakeVisible(Tab1_densityKnob);
+    PitchStretch.addAndMakeVisible(Tab1_grainSizeKnob);
+    PitchStretch.addAndMakeVisible(Tab1_dryWayKnob);
+    PitchStretch.addAndMakeVisible(Tab1_stretchSpeedKnob);
+    PitchStretch.addAndMakeVisible(Tab1_stretchButton);
     
     addChildComponent(PitchStretch);
     
-    //Slider 1
-    Slider1.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    Slider1.setName("Slider 1");
-    Slider1.setSliderStyle(Slider::RotaryVerticalDrag);
-    Slider1.setRange(0.0, 1.0);
-    Slider1.addListener(this);
-    Slider1.setBounds(60, 28, 75, 75);
+    Tab1_pitchKnob.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    Tab1_pitchKnob.setName("Slider 1");
+    Tab1_pitchKnob.setSliderStyle(Slider::RotaryVerticalDrag);
+    Tab1_pitchKnob.setRange(0.0, 1.0);
+    Tab1_pitchKnob.addListener(this);
+    Tab1_pitchKnob.setBounds(60, 28, 75, 75);
     
-    Label1.setText("Pitch", dontSendNotification);
-    Label1.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
-    Label1.attachToComponent(&Slider1, true);
+    Tab1_pitchLabel.setText("Pitch", dontSendNotification);
+    Tab1_pitchLabel.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
+    Tab1_pitchLabel.attachToComponent(&Tab1_pitchKnob, true);
     
-    Slider2.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    Slider2.setName("Slider 2");
-    Slider2.setSliderStyle(Slider::RotaryVerticalDrag);
-    Slider2.setRange(0.0, 1.0);
-    Slider2.addListener(this);
-    Slider2.setBounds(160, 88, 75, 75);
+    Tab1_densityKnob.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    Tab1_densityKnob.setName("Slider 2");
+    Tab1_densityKnob.setSliderStyle(Slider::RotaryVerticalDrag);
+    Tab1_densityKnob.setRange(0.0, 1.0);
+    Tab1_densityKnob.addListener(this);
+    Tab1_densityKnob.setBounds(160, 88, 75, 75);
     
-    Label2.setText("Density", dontSendNotification);
-    Label2.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
-    Label2.attachToComponent(&Slider2, true);
+    Tab1_densityLabel.setText("Density", dontSendNotification);
+    Tab1_densityLabel.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
+    Tab1_densityLabel.attachToComponent(&Tab1_densityKnob, true);
     
-    Slider3.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    Slider3.setName("Slider 3");
-    Slider3.setSliderStyle(Slider::RotaryVerticalDrag);
-    Slider3.setRange(0.0, 1.0);
-    Slider3.addListener(this);
-    Slider3.setBounds(260, 28, 75, 75);
+    Tab1_grainSizeKnob.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    Tab1_grainSizeKnob.setName("Slider 3");
+    Tab1_grainSizeKnob.setSliderStyle(Slider::RotaryVerticalDrag);
+    Tab1_grainSizeKnob.setRange(0.0, 1.0);
+    Tab1_grainSizeKnob.addListener(this);
+    Tab1_grainSizeKnob.setBounds(260, 28, 75, 75);
     
-    Label3.setText("GrainSize", dontSendNotification);
-    Label3.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
-    Label3.attachToComponent(&Slider3, true);
-    addAndMakeVisible(Label3);
+    Tab1_grainSizeLabel.setText("GrainSize", dontSendNotification);
+    Tab1_grainSizeLabel.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
+    Tab1_grainSizeLabel.attachToComponent(&Tab1_grainSizeKnob, true);
+    addAndMakeVisible(Tab1_grainSizeLabel);
     
-    Slider4.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    Slider4.setName("Slider 4");
-    Slider4.setSliderStyle(Slider::RotaryVerticalDrag);
-    Slider4.setRange(0.0, 1.0);
-    Slider4.addListener(this);
-    Slider4.setBounds(360, 88, 75, 75);
-   // addAndMakeVisible(Slider4);
+    Tab1_dryWayKnob.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    Tab1_dryWayKnob.setName("Slider 4");
+    Tab1_dryWayKnob.setSliderStyle(Slider::RotaryVerticalDrag);
+    Tab1_dryWayKnob.setRange(0.0, 1.0);
+    Tab1_dryWayKnob.addListener(this);
+    Tab1_dryWayKnob.setBounds(360, 88, 75, 75);
     
-    Label4.setText("Dry/Wet", dontSendNotification);
-    Label4.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
-    Label4.attachToComponent(&Slider4, true);
-    addAndMakeVisible(Label4);
+    Tab1_dryWetLabel.setText("Dry/Wet", dontSendNotification);
+    Tab1_dryWetLabel.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
+    Tab1_dryWetLabel.attachToComponent(&Tab1_dryWayKnob, true);
+    addAndMakeVisible(Tab1_dryWetLabel);
     
-    Slider5.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    Slider5.setName("Slider 5");
-    Slider5.setSliderStyle(Slider::RotaryVerticalDrag);
-    Slider5.setRange(0.0, 1.0);
-    Slider5.addListener(this);
-    Slider5.setBounds(500, 88, 45, 45);
-   // addAndMakeVisible(Slider5);
+    Tab1_stretchSpeedKnob.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    Tab1_stretchSpeedKnob.setName("Slider 5");
+    Tab1_stretchSpeedKnob.setSliderStyle(Slider::RotaryVerticalDrag);
+    Tab1_stretchSpeedKnob.setRange(0.0, 1.0);
+    Tab1_stretchSpeedKnob.addListener(this);
+    Tab1_stretchSpeedKnob.setBounds(500, 88, 45, 45);
     
-    Label5.setText("Speed", dontSendNotification);
-    Label5.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
-    Label5.attachToComponent(&Slider5, false);
-    addAndMakeVisible(Label5);
+    Tab1_stretchSpeedLabel.setText("Speed", dontSendNotification);
+    Tab1_stretchSpeedLabel.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
+    Tab1_stretchSpeedLabel.attachToComponent(&Tab1_stretchSpeedKnob, false);
+    addAndMakeVisible(Tab1_stretchSpeedLabel);
     
-    button1.setBounds(480,28,80,20);
-    button1.setColour(juce::ToggleButton::textColourId , Colours::white);
-    button1.addListener(this);
+    Tab1_stretchButton.setBounds(480,28,80,20);
+    Tab1_stretchButton.setColour(juce::ToggleButton::textColourId , Colours::white);
+    Tab1_stretchButton.addListener(this);
     
     addMouseListener(this, true);
     
@@ -110,7 +109,7 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
     checkTabs();
     startTimer(50);
 }
-
+//==============================================================================
 MumuAudioGranularAudioProcessorEditor::~MumuAudioGranularAudioProcessorEditor()
 {
 }
@@ -146,62 +145,62 @@ void MumuAudioGranularAudioProcessorEditor::paint (Graphics& g)
     //horizontal
     g.fillRoundedRectangle(0,208,600,1,0);
 }
-
+//==============================================================================
 void MumuAudioGranularAudioProcessorEditor::timerCallback(){
-    Slider1.setValue(processor.slider1Param->getValue(), dontSendNotification);
-    Slider2.setValue(processor.slider2Param->getValue(), dontSendNotification);
-    Slider3.setValue(processor.slider3Param->getValue(), dontSendNotification);
-    Slider4.setValue(processor.slider4Param->getValue(), dontSendNotification);
-    Slider5.setValue(processor.slider5Param->getValue(), dontSendNotification);
+    Tab1_pitchKnob.setValue(processor.Tab1_pitchKnobParam->getValue(), dontSendNotification);
+    Tab1_densityKnob.setValue(processor.Tab1_densityKnobParam->getValue(), dontSendNotification);
+    Tab1_grainSizeKnob.setValue(processor.Tab1_grainSizeKnobParam->getValue(), dontSendNotification);
+    Tab1_dryWayKnob.setValue(processor.Tab1_dryWayKnobParam->getValue(), dontSendNotification);
+    Tab1_stretchSpeedKnob.setValue(processor.Tab1_stretchSpeedKnobParam->getValue(), dontSendNotification);
     Tab.setCurrentTabIndex(processor.currentTab->getValue(), dontSendNotification);
 }
-
+//==============================================================================
 void MumuAudioGranularAudioProcessorEditor::sliderValueChanged (Slider* sliderThatHasChanged){
     
-    if (sliderThatHasChanged == &Slider1) {
-        processor.slider1Param->beginChangeGesture();
-        processor.slider1Param->setValueNotifyingHost(sliderThatHasChanged->getValue());
-        processor.slider1Param->endChangeGesture();
+    if (sliderThatHasChanged == &Tab1_pitchKnob) {
+        processor.Tab1_pitchKnobParam->beginChangeGesture();
+        processor.Tab1_pitchKnobParam->setValueNotifyingHost(sliderThatHasChanged->getValue());
+        processor.Tab1_pitchKnobParam->endChangeGesture();
     }
-    if (sliderThatHasChanged == &Slider2) {
-        processor.slider2Param->beginChangeGesture();
-        processor.slider2Param->setValueNotifyingHost(sliderThatHasChanged->getValue());
-        processor.slider2Param->endChangeGesture();
+    if (sliderThatHasChanged == &Tab1_densityKnob) {
+        processor.Tab1_densityKnobParam->beginChangeGesture();
+        processor.Tab1_densityKnobParam->setValueNotifyingHost(sliderThatHasChanged->getValue());
+        processor.Tab1_densityKnobParam->endChangeGesture();
     }
-    if (sliderThatHasChanged == &Slider3) {
-        processor.slider3Param->beginChangeGesture();
-        processor.slider3Param->setValueNotifyingHost(sliderThatHasChanged->getValue());
-        processor.slider3Param->endChangeGesture();
+    if (sliderThatHasChanged == &Tab1_grainSizeKnob) {
+        processor.Tab1_grainSizeKnobParam->beginChangeGesture();
+        processor.Tab1_grainSizeKnobParam->setValueNotifyingHost(sliderThatHasChanged->getValue());
+        processor.Tab1_grainSizeKnobParam->endChangeGesture();
     }
-    if (sliderThatHasChanged == &Slider4) {
-        processor.slider4Param->beginChangeGesture();
-        processor.slider4Param->setValueNotifyingHost(sliderThatHasChanged->getValue());
-        processor.slider4Param->endChangeGesture();
+    if (sliderThatHasChanged == &Tab1_dryWayKnob) {
+        processor.Tab1_dryWayKnobParam->beginChangeGesture();
+        processor.Tab1_dryWayKnobParam->setValueNotifyingHost(sliderThatHasChanged->getValue());
+        processor.Tab1_dryWayKnobParam->endChangeGesture();
     }
-    if (sliderThatHasChanged == &Slider5) {
-        processor.slider5Param->beginChangeGesture();
-        processor.slider5Param->setValueNotifyingHost(sliderThatHasChanged->getValue());
-        processor.slider5Param->endChangeGesture();
+    if (sliderThatHasChanged == &Tab1_stretchSpeedKnob) {
+        processor.Tab1_stretchSpeedKnobParam->beginChangeGesture();
+        processor.Tab1_stretchSpeedKnobParam->setValueNotifyingHost(sliderThatHasChanged->getValue());
+        processor.Tab1_stretchSpeedKnobParam->endChangeGesture();
     }
 }
-
+//==============================================================================
 void MumuAudioGranularAudioProcessorEditor::mouseDown(const MouseEvent & e) {
-    if ( e.eventComponent->getName() == Slider1.getName() || e.eventComponent->getName() == Slider2.getName() || e.eventComponent->getName() == Slider3.getName() || e.eventComponent->getName() == Slider4.getName() || e.eventComponent->getName() == Slider5.getName() ){
+    if ( dynamic_cast<Slider*>(e.eventComponent)  ){
         e.source.enableUnboundedMouseMovement(true);
     }
 }
-
+//==============================================================================
 void MumuAudioGranularAudioProcessorEditor::buttonClicked(juce::Button *button){
-    if (button == &button1)
+    if (button == &Tab1_stretchButton)
     {
-        processor.button1Param->setValueNotifyingHost(button1.getToggleState());
+        processor.Tab1_stretchButtonParam->setValueNotifyingHost(Tab1_stretchButton.getToggleState());
     }
 }
-
+//==============================================================================
 void MumuAudioGranularAudioProcessorEditor::changeListenerCallback(juce::ChangeBroadcaster *source){
     checkTabs();
 }
-
+//==============================================================================
 void MumuAudioGranularAudioProcessorEditor::checkTabs(){
     if (Tab.getCurrentTabIndex() == 0)
     {

@@ -23,14 +23,14 @@ MumuAudioGranularAudioProcessor::MumuAudioGranularAudioProcessor() : grainp_Arra
     m_SchedulerR = GrainScheduler();
     
     //Set sliders connected variable
-    addParameter(slider1Param = new AudioParameterFloat("slider1Param", "Slider1", 0.0, 1.0, 0.5));
-    addParameter(slider2Param = new AudioParameterFloat("slider2Param", "Slider2", 0.0, 1.0, 0.5));
-    addParameter(slider3Param = new AudioParameterFloat("slider3Param", "Slider3", 0.0, 1.0, 0.5));
-    addParameter(slider4Param = new AudioParameterFloat("slider4Param", "Slider4", 0.0, 1.0, 0.5));
-    addParameter(slider5Param = new AudioParameterFloat("slider5Param", "Slider5", 0.0, 1.0, 0.5));
+    addParameter(Tab1_pitchKnobParam = new AudioParameterFloat("Tab1_pitchKnobParam", "Slider1", 0.0, 1.0, 0.5));
+    addParameter(Tab1_densityKnobParam = new AudioParameterFloat("Tab1_densityKnobParam", "Slider2", 0.0, 1.0, 0.5));
+    addParameter(Tab1_grainSizeKnobParam = new AudioParameterFloat("Tab1_grainSizeKnobParam", "Slider3", 0.0, 1.0, 0.5));
+    addParameter(Tab1_dryWayKnobParam = new AudioParameterFloat("Tab1_dryWayKnobParam", "Slider4", 0.0, 1.0, 0.5));
+    addParameter(Tab1_stretchSpeedKnobParam = new AudioParameterFloat("Tab1_stretchSpeedKnobParam", "Slider5", 0.0, 1.0, 0.5));
     addParameter(currentTab = new AudioParameterFloat("currentTabParam", "Tab", 0, 2, 0));
     //Button Param
-    addParameter(button1Param = new AudioParameterBool("button1Param", "Button1" , 0));
+    addParameter(Tab1_stretchButtonParam = new AudioParameterBool("Tab1_stretchButtonParam", "Button1" , 0));
     
     m_ADSR_Left_Started = 0;
     m_ADSR_Right_Started = 0;
@@ -172,12 +172,12 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
     for (int i = getNumInputChannels(); i < getNumOutputChannels(); ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     //Get Parameters
-    float pitch = jmap(slider1Param->getValue(), 0.001f, 2.0f);
-    float density = jmap(slider2Param->getValue(), 0.015f, 0.6f);
-    float grainSize = jmap(slider3Param->getValue(), 0.01f, 0.5f);
-    float dryWet = slider4Param->getValue();
-    int buttonState = button1Param->getValue();
-    float stretchSpeed = slider5Param->getValue();
+    float pitch = jmap(Tab1_pitchKnobParam->getValue(), 0.001f, 2.0f);
+    float density = jmap(Tab1_densityKnobParam->getValue(), 0.015f, 0.6f);
+    float grainSize = jmap(Tab1_grainSizeKnobParam->getValue(), 0.01f, 0.5f);
+    float dryWet = Tab1_dryWayKnobParam->getValue();
+    int buttonState = Tab1_stretchButtonParam->getValue();
+    float stretchSpeed = Tab1_stretchSpeedKnobParam->getValue();
     //Set Interonset Time
     m_SchedulerL.setInteronset(m_fSampleRate, density);
     m_SchedulerR.setInteronset(m_fSampleRate, density);

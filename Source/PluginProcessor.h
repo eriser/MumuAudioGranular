@@ -63,13 +63,13 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
-    AudioProcessorParameter* slider1Param;
-    AudioProcessorParameter* slider2Param;
-    AudioProcessorParameter* slider3Param;
-    AudioProcessorParameter* slider4Param;
-    AudioProcessorParameter* slider5Param;
+    AudioProcessorParameter* Tab1_pitchKnobParam;
+    AudioProcessorParameter* Tab1_densityKnobParam;
+    AudioProcessorParameter* Tab1_grainSizeKnobParam;
+    AudioProcessorParameter* Tab1_dryWayKnobParam;
+    AudioProcessorParameter* Tab1_stretchSpeedKnobParam;
     
-    AudioProcessorParameter* button1Param;
+    AudioProcessorParameter* Tab1_stretchButtonParam;
     
     AudioProcessorParameter* currentTab;
     

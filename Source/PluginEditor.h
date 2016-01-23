@@ -48,27 +48,31 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     MumuAudioGranularAudioProcessor& processor;
-    
+    //===== Tab Bar Object =====
     TabbedButtonBar Tab;
     void checkTabs();
+    //======== Tab 1 ===========
+    Component PitchStretch;
     
-    Slider Slider1;
-    Slider Slider2;
-    Slider Slider3;
-    Slider Slider4;
-    Slider Slider5;
+    Slider Tab1_pitchKnob;
+    Slider Tab1_densityKnob;
+    Slider Tab1_grainSizeKnob;
+    Slider Tab1_dryWayKnob;
+    Slider Tab1_stretchSpeedKnob;
     
-    Label Label1;
-    Label Label2;
-    Label Label3;
-    Label Label4;
-    Label Label5;
+    Label Tab1_pitchLabel;
+    Label Tab1_densityLabel;
+    Label Tab1_grainSizeLabel;
+    Label Tab1_dryWetLabel;
+    Label Tab1_stretchSpeedLabel;
     
-    ToggleButton button1;
+    ToggleButton Tab1_stretchButton;
     
+    
+    
+    //===== Look And Feel ======
     CustomLookAndFeel myLookAndFeel;
     
-    Component PitchStretch;
     
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MumuAudioGranularAudioProcessorEditor)
