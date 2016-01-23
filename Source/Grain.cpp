@@ -11,23 +11,28 @@
 #include "Grain.h"
 #include <iostream>
 
+//==============================================================================
 Grain::Grain(){
     isBusy = 0;
     grainIndex = 0;
 }
 
+//==============================================================================
 Grain::~Grain(){
     
 }
 
+//==============================================================================
 void Grain::setDelta(float sampleRate, float samples){
     m_nDelta = (int)samples;
 }
 
+//==============================================================================
 void Grain::setWindowSize(int sampleRate, float seconds){
     Window.setWindowLength(sampleRate, seconds);
 }
 
+//==============================================================================
 void Grain::init(float pitch, GranularBuffer& buffer){
     bufferSpeed = pitch;
     
@@ -42,10 +47,12 @@ void Grain::init(float pitch, GranularBuffer& buffer){
     }
 }
 
+//==============================================================================
 int Grain::isItBusy(){
     return isBusy;
 }
 
+//==============================================================================
 float Grain::play(int sampleRate, GranularBuffer& buffer){
     float yn = buffer.pBuffer[(int)grainIndex % buffer.nBufferSize];
     float yn_f1 = buffer.pBuffer[((int)grainIndex+1) % buffer.nBufferSize];
@@ -69,6 +76,7 @@ float Grain::play(int sampleRate, GranularBuffer& buffer){
     return Window.doTukeyWindow(output, isBusy);
 }
 
+//==============================================================================
 int Grain::returnIncrementer()
 {
     return Window.incrementer;

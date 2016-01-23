@@ -11,6 +11,7 @@
 #include "TukeyWindow.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 
+//==============================================================================
 TukeyWindow::TukeyWindow():
 PI(3.14159265359),
 incrementer(0),
@@ -18,13 +19,17 @@ timeInSamples(0),
 multiplier(0)
 {
 }
+
+//==============================================================================
 TukeyWindow::~TukeyWindow(){}
 
+//==============================================================================
 void TukeyWindow::setWindowLength(int sampleRate, float seconds)
 {
     timeInSamples = sampleRate * seconds;
 }
 
+//==============================================================================
 float TukeyWindow::doTukeyWindow(float input, int& logicSwitch)
 {
     if (logicSwitch == 1)

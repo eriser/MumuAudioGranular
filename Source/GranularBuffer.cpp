@@ -11,6 +11,7 @@
 #include "GranularBuffer.h"
 #include <string.h>
 
+//==============================================================================
 GranularBuffer::GranularBuffer() : nWriteIndex(0),
                                    pBuffer(nullptr),
                                    nBufferSize(0)
@@ -19,6 +20,7 @@ GranularBuffer::GranularBuffer() : nWriteIndex(0),
     
 }
 
+//==============================================================================
 GranularBuffer::~GranularBuffer()
 {
     if(pBuffer)
@@ -26,16 +28,19 @@ GranularBuffer::~GranularBuffer()
     
 }
 
+//==============================================================================
 void GranularBuffer::setBufferLength(float sampleRate, float seconds)
 {
     nBufferSize = sampleRate * seconds;
 }
 
+//==============================================================================
 int GranularBuffer::getBufferLength()
 {
     return (int)nBufferSize;
 }
 
+//==============================================================================
 void GranularBuffer::prepareToPlay()
 {
     //delete if it exists
@@ -48,6 +53,7 @@ void GranularBuffer::prepareToPlay()
     nWriteIndex = 0;
 }
 
+//==============================================================================
 void GranularBuffer::process(float input)
 {
     pBuffer[nWriteIndex] = input;

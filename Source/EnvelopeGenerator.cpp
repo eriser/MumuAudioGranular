@@ -10,6 +10,7 @@
 
 #include "EnvelopeGenerator.h"
 
+//==============================================================================
 EnvelopeGenerator::EnvelopeGenerator() :    mCurrentStage(ENVELOPE_STAGE_OFF),
                                             mSampleRate(44100.0),
                                             mMultiplier(1),
@@ -25,10 +26,12 @@ EnvelopeGenerator::EnvelopeGenerator() :    mCurrentStage(ENVELOPE_STAGE_OFF),
     stageValue[ENVELOPE_STAGE_RELEASE] = 1.0;
 }
 
+//==============================================================================
 EnvelopeGenerator::~EnvelopeGenerator(){
     
 }
 
+//==============================================================================
 void EnvelopeGenerator::enterStage(EnvelopeStage newStage){
     //Enter new stage and make sure to reset current sample index so we can start calculating current stage
     mCurrentStage = newStage;
@@ -63,6 +66,7 @@ void EnvelopeGenerator::enterStage(EnvelopeStage newStage){
     }
 }
 
+//==============================================================================
 double EnvelopeGenerator::nextSample(){
     // If we're in Attack, Decay, Release, if mCurrentSampleIndex, has reached the next stage, then get the next stage and enter it.
     // Go to off from release
@@ -77,6 +81,7 @@ double EnvelopeGenerator::nextSample(){
     return mCurrentLevel;
 }
 
+//==============================================================================
 void EnvelopeGenerator::calculateMultiplier(double startLevel, double endLevel, unsigned long long lengthInSamples){
     mMultiplier = 1.0 + (log(endLevel) - log(startLevel)) / (lengthInSamples);
 }

@@ -10,6 +10,7 @@
 
 #include "CustomLookAndFeel.h"
 
+//==============================================================================
 CustomLookAndFeel::CustomLookAndFeel(){
     setColour(Slider::rotarySliderFillColourId, Colours::darkgrey);
     setColour(Slider::rotarySliderOutlineColourId, Colours::black);
@@ -19,6 +20,7 @@ CustomLookAndFeel::~CustomLookAndFeel(){
     
 }
 
+//==============================================================================
 // The version uses an image generated from knobman
 // Based on https://github.com/audioplastic/Juce-look-and-feel-examples and JUCE Forum
 void CustomLookAndFeel::drawRotarySlider (Graphics & g, int x, int y, int width, int height,  float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, Slider & slider)
@@ -43,8 +45,7 @@ void CustomLookAndFeel::drawRotarySlider (Graphics & g, int x, int y, int width,
     
 }
 
-
-
+//==============================================================================
 //This version draws a vector image using JUCE::Path
 /*void CustomLookAndFeel::drawRotarySlider (Graphics& g, int x, int y, int width, int height, float sliderPos,
                                           float rotaryStartAngle, float rotaryEndAngle, Slider& slider)

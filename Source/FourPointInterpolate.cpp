@@ -10,6 +10,7 @@
 
 #include "FourPointInterpolate.h"
 
+//==============================================================================
 float FourPointInterpolate(float t0, float t_minus1, float t_1, float t_2, float fractional)
 {
     float numeralA = (t_1 - t_minus1) * 0.5;

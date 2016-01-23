@@ -16,9 +16,12 @@ class Granulator
 public:
     Granulator();
     ~Granulator();
+    
+    float process(float input);
 
 private:
-
+    //if state is zero, no stretch, if state is 1, stretching
+    bool state;
 };
 
 
