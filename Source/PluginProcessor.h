@@ -71,6 +71,8 @@ public:
     
     AudioProcessorParameter* button1Param;
     
+    AudioProcessorParameter* currentTab;
+    
 //    //AudioSampleBuffer currentSampleBuffer;
 //    std::atomic<bool> guiUpToDate;
 //    std::shared_ptr<AudioSampleBuffer> sharedSampleBuffer;

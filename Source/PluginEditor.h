@@ -24,8 +24,8 @@
 class MumuAudioGranularAudioProcessorEditor  :  public AudioProcessorEditor,
                                                 public Slider::Listener,
                                                 public Button::Listener,
+                                                public ChangeListener,
                                                 public Timer
-                                                //public TabbedComponent
 {
 public:
     MumuAudioGranularAudioProcessorEditor (MumuAudioGranularAudioProcessor&);
@@ -41,13 +41,16 @@ public:
     
     
     void mouseDown (const MouseEvent &e) override;
-    void mouseUp (const MouseEvent &e) override;
+    
+    void changeListenerCallback(ChangeBroadcaster *source) override;
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     MumuAudioGranularAudioProcessor& processor;
     
+    TabbedButtonBar Tab;
+    void checkTabs();
     
     Slider Slider1;
     Slider Slider2;
@@ -64,6 +67,8 @@ private:
     ToggleButton button1;
     
     CustomLookAndFeel myLookAndFeel;
+    
+    Component PitchStretch;
     
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MumuAudioGranularAudioProcessorEditor)

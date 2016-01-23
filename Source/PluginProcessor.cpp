@@ -28,6 +28,7 @@ MumuAudioGranularAudioProcessor::MumuAudioGranularAudioProcessor() : grainp_Arra
     addParameter(slider3Param = new AudioParameterFloat("slider3Param", "Slider3", 0.0, 1.0, 0.5));
     addParameter(slider4Param = new AudioParameterFloat("slider4Param", "Slider4", 0.0, 1.0, 0.5));
     addParameter(slider5Param = new AudioParameterFloat("slider5Param", "Slider5", 0.0, 1.0, 0.5));
+    addParameter(currentTab = new AudioParameterFloat("currentTabParam", "Tab", 0, 2, 0));
     //Button Param
     addParameter(button1Param = new AudioParameterBool("button1Param", "Button1" , 0));
     

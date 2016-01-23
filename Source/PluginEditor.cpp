@@ -14,12 +14,30 @@
 
 //==============================================================================
 MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (MumuAudioGranularAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), button1("Grain")
+: AudioProcessorEditor (&p), processor (p), Tab(TabbedButtonBar::TabsAtLeft), button1("Grain")
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (600, 280);
     LookAndFeel::setDefaultLookAndFeel(&myLookAndFeel);
+    
+    addAndMakeVisible(Tab);
+    Tab.setBounds(0, 20, 20, 180);
+    Tab.addTab("Pitch / Stretch", Colour(Colours::darkgrey), 1);
+    Tab.addTab("Rhythmic Chop", Colour(Colours::darkgrey), 2);
+    Tab.addTab("Patches", Colour(Colours::darkgrey), 3);
+    Tab.setAlpha(0.8);
+    Tab.addChangeListener(this);
+    
+    PitchStretch.setBounds(20, 0, 580, 280);
+    PitchStretch.addAndMakeVisible(Slider1);
+    PitchStretch.addAndMakeVisible(Slider2);
+    PitchStretch.addAndMakeVisible(Slider3);
+    PitchStretch.addAndMakeVisible(Slider4);
+    PitchStretch.addAndMakeVisible(Slider5);
+    PitchStretch.addAndMakeVisible(button1);
+    
+    addChildComponent(PitchStretch);
     
     //Slider 1
     Slider1.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
@@ -28,12 +46,10 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
     Slider1.setRange(0.0, 1.0);
     Slider1.addListener(this);
     Slider1.setBounds(60, 28, 75, 75);
-    addAndMakeVisible(Slider1);
     
     Label1.setText("Pitch", dontSendNotification);
     Label1.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
     Label1.attachToComponent(&Slider1, true);
-    addAndMakeVisible(Label1);
     
     Slider2.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     Slider2.setName("Slider 2");
@@ -41,12 +57,10 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
     Slider2.setRange(0.0, 1.0);
     Slider2.addListener(this);
     Slider2.setBounds(160, 88, 75, 75);
-    addAndMakeVisible(Slider2);
     
     Label2.setText("Density", dontSendNotification);
     Label2.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
     Label2.attachToComponent(&Slider2, true);
-    addAndMakeVisible(Label2);
     
     Slider3.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     Slider3.setName("Slider 3");
@@ -54,7 +68,6 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
     Slider3.setRange(0.0, 1.0);
     Slider3.addListener(this);
     Slider3.setBounds(260, 28, 75, 75);
-    addAndMakeVisible(Slider3);
     
     Label3.setText("GrainSize", dontSendNotification);
     Label3.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
@@ -67,7 +80,7 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
     Slider4.setRange(0.0, 1.0);
     Slider4.addListener(this);
     Slider4.setBounds(360, 88, 75, 75);
-    addAndMakeVisible(Slider4);
+   // addAndMakeVisible(Slider4);
     
     Label4.setText("Dry/Wet", dontSendNotification);
     Label4.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
@@ -80,20 +93,21 @@ MumuAudioGranularAudioProcessorEditor::MumuAudioGranularAudioProcessorEditor (Mu
     Slider5.setRange(0.0, 1.0);
     Slider5.addListener(this);
     Slider5.setBounds(500, 88, 45, 45);
-    addAndMakeVisible(Slider5);
+   // addAndMakeVisible(Slider5);
     
     Label5.setText("Speed", dontSendNotification);
     Label5.setColour(juce::Label::textColourId, juce::Colour(255.0f, 255.0f, 255.0f));
     Label5.attachToComponent(&Slider5, false);
     addAndMakeVisible(Label5);
     
-    button1.setBounds(500,28,80,20);
+    button1.setBounds(480,28,80,20);
+    button1.setColour(juce::ToggleButton::textColourId , Colours::white);
     button1.addListener(this);
-    addAndMakeVisible(&button1);
     
     addMouseListener(this, true);
     
     timerCallback();
+    checkTabs();
     startTimer(50);
 }
 
@@ -139,6 +153,7 @@ void MumuAudioGranularAudioProcessorEditor::timerCallback(){
     Slider3.setValue(processor.slider3Param->getValue(), dontSendNotification);
     Slider4.setValue(processor.slider4Param->getValue(), dontSendNotification);
     Slider5.setValue(processor.slider5Param->getValue(), dontSendNotification);
+    Tab.setCurrentTabIndex(processor.currentTab->getValue(), dontSendNotification);
 }
 
 void MumuAudioGranularAudioProcessorEditor::sliderValueChanged (Slider* sliderThatHasChanged){
@@ -176,12 +191,33 @@ void MumuAudioGranularAudioProcessorEditor::mouseDown(const MouseEvent & e) {
     }
 }
 
-void MumuAudioGranularAudioProcessorEditor::mouseUp(const MouseEvent & e) {
-    
+void MumuAudioGranularAudioProcessorEditor::buttonClicked(juce::Button *button){
+    if (button == &button1)
+    {
+        processor.button1Param->setValueNotifyingHost(button1.getToggleState());
+    }
 }
 
-void MumuAudioGranularAudioProcessorEditor::buttonClicked(juce::Button *button){
-    processor.button1Param->setValueNotifyingHost(button1.getToggleState());
+void MumuAudioGranularAudioProcessorEditor::changeListenerCallback(juce::ChangeBroadcaster *source){
+    checkTabs();
+}
+
+void MumuAudioGranularAudioProcessorEditor::checkTabs(){
+    if (Tab.getCurrentTabIndex() == 0)
+    {
+        PitchStretch.setVisible(true);
+        processor.currentTab->setValueNotifyingHost(0);
+    }
+    else if (Tab.getCurrentTabIndex() == 1)
+    {
+        PitchStretch.setVisible(false);
+        processor.currentTab->setValueNotifyingHost(1);
+    }
+    else if (Tab.getCurrentTabIndex() == 2)
+    {
+        PitchStretch.setVisible(false);
+        processor.currentTab->setValueNotifyingHost(2);
+    }
 }
 
 
