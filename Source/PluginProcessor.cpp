@@ -22,14 +22,17 @@ MumuAudioGranularAudioProcessor::MumuAudioGranularAudioProcessor() : grainp_Arra
     m_SchedulerL = GrainScheduler();
     m_SchedulerR = GrainScheduler();
     
-    //Set sliders connected variable
+    //Float Parameters
+    //Current Tab Bar Param
+    addParameter(currentTab = new AudioParameterFloat("currentTabParam", "Tab", 0, 2, 0));
+    //Tab 1 Param
     addParameter(Tab1_pitchKnobParam = new AudioParameterFloat("Tab1_pitchKnobParam", "Slider1", 0.0, 1.0, 0.5));
     addParameter(Tab1_densityKnobParam = new AudioParameterFloat("Tab1_densityKnobParam", "Slider2", 0.0, 1.0, 0.5));
     addParameter(Tab1_grainSizeKnobParam = new AudioParameterFloat("Tab1_grainSizeKnobParam", "Slider3", 0.0, 1.0, 0.5));
     addParameter(Tab1_dryWayKnobParam = new AudioParameterFloat("Tab1_dryWayKnobParam", "Slider4", 0.0, 1.0, 0.5));
     addParameter(Tab1_stretchSpeedKnobParam = new AudioParameterFloat("Tab1_stretchSpeedKnobParam", "Slider5", 0.0, 1.0, 0.5));
-    addParameter(currentTab = new AudioParameterFloat("currentTabParam", "Tab", 0, 2, 0));
-    //Button Param
+    //Bool Params
+    //Tab 1 Param
     addParameter(Tab1_stretchButtonParam = new AudioParameterBool("Tab1_stretchButtonParam", "Button1" , 0));
     
     m_ADSR_Left_Started = 0;
@@ -172,12 +175,7 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
     for (int i = getNumInputChannels(); i < getNumOutputChannels(); ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     //Get Parameters
-    float pitch = jmap(Tab1_pitchKnobParam->getValue(), 0.001f, 2.0f);
-    float density = jmap(Tab1_densityKnobParam->getValue(), 0.015f, 0.6f);
-    float grainSize = jmap(Tab1_grainSizeKnobParam->getValue(), 0.01f, 0.5f);
-    float dryWet = Tab1_dryWayKnobParam->getValue();
-    int buttonState = Tab1_stretchButtonParam->getValue();
-    float stretchSpeed = Tab1_stretchSpeedKnobParam->getValue();
+    updateParams();
     //Set Interonset Time
     m_SchedulerL.setInteronset(m_fSampleRate, density);
     m_SchedulerR.setInteronset(m_fSampleRate, density);
@@ -351,6 +349,16 @@ void MumuAudioGranularAudioProcessor::setStateInformation (const void* data, int
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+
+//==============================================================================
+void MumuAudioGranularAudioProcessor::updateParams(){
+     pitch = jmap(Tab1_pitchKnobParam->getValue(), 0.001f, 2.0f);
+     density = jmap(Tab1_densityKnobParam->getValue(), 0.015f, 0.6f);
+     grainSize = jmap(Tab1_grainSizeKnobParam->getValue(), 0.01f, 0.5f);
+     dryWet = Tab1_dryWayKnobParam->getValue();
+     buttonState = Tab1_stretchButtonParam->getValue();
+     stretchSpeed = Tab1_stretchSpeedKnobParam->getValue();
 }
 
 //==============================================================================

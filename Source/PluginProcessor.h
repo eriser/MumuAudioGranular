@@ -63,23 +63,31 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
+    //Current Tab
+    AudioProcessorParameter* currentTab;
+    
+    //Tab 1 Params
     AudioProcessorParameter* Tab1_pitchKnobParam;
     AudioProcessorParameter* Tab1_densityKnobParam;
     AudioProcessorParameter* Tab1_grainSizeKnobParam;
     AudioProcessorParameter* Tab1_dryWayKnobParam;
     AudioProcessorParameter* Tab1_stretchSpeedKnobParam;
-    
     AudioProcessorParameter* Tab1_stretchButtonParam;
     
-    AudioProcessorParameter* currentTab;
-    
-//    //AudioSampleBuffer currentSampleBuffer;
 //    std::atomic<bool> guiUpToDate;
 //    std::shared_ptr<AudioSampleBuffer> sharedSampleBuffer;
 
     
 private:
-    //AudioSampleBuffer currentSampleBuffer;
+    //Function to map our knob parameters
+    void updateParams();
+    //Mapped param variables
+    float pitch;
+    float density;
+    float grainSize;
+    float dryWet;
+    int buttonState;
+    float stretchSpeed;
 
     GranularBuffer m_gBufferL;
     GranularBuffer m_gBufferR;

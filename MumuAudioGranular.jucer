@@ -18,6 +18,38 @@
       <FILE id="dqJozN" name="MumuLight.png" compile="0" resource="1" file="Resources/MumuLight.png"/>
     </GROUP>
     <GROUP id="{8CC60499-F971-8265-C151-CD0A9C23E95B}" name="Source">
+      <FILE id="zTxib2" name="Granulator.cpp" compile="1" resource="0" file="Source/Granulator.cpp"/>
+      <FILE id="E91ejo" name="Granulator.h" compile="0" resource="0" file="Source/Granulator.h"/>
+      <GROUP id="{A3DBC828-4FCF-4A65-EC73-31C681DF0A1B}" name="UI">
+        <FILE id="AhqgRU" name="AudioLiveScrollingDisplay.h" compile="0" resource="0"
+              file="Source/AudioLiveScrollingDisplay.h"/>
+        <FILE id="HksN4k" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+              file="Source/CustomLookAndFeel.cpp"/>
+        <FILE id="Lko64L" name="CustomLookAndFeel.h" compile="0" resource="0"
+              file="Source/CustomLookAndFeel.h"/>
+      </GROUP>
+      <GROUP id="{310E1F41-8CDF-B3ED-051D-D6E104F1EACC}" name="DSP">
+        <FILE id="YwBl3b" name="GranularBuffer.cpp" compile="1" resource="0"
+              file="Source/GranularBuffer.cpp"/>
+        <FILE id="vSeVQF" name="GranularBuffer.h" compile="0" resource="0"
+              file="Source/GranularBuffer.h"/>
+        <FILE id="iMwe2H" name="GrainScheduler.cpp" compile="1" resource="0"
+              file="Source/GrainScheduler.cpp"/>
+        <FILE id="ZbJR4V" name="GrainScheduler.h" compile="0" resource="0"
+              file="Source/GrainScheduler.h"/>
+        <FILE id="M20OVH" name="Grain.cpp" compile="1" resource="0" file="Source/Grain.cpp"/>
+        <FILE id="SJFKJ5" name="Grain.h" compile="0" resource="0" file="Source/Grain.h"/>
+        <FILE id="yp8aeM" name="FourPointInterpolate.cpp" compile="1" resource="0"
+              file="Source/FourPointInterpolate.cpp"/>
+        <FILE id="uhyPS4" name="FourPointInterpolate.h" compile="0" resource="0"
+              file="Source/FourPointInterpolate.h"/>
+        <FILE id="ae3ZGv" name="TukeyWindow.cpp" compile="1" resource="0" file="Source/TukeyWindow.cpp"/>
+        <FILE id="FdSd7R" name="TukeyWindow.h" compile="0" resource="0" file="Source/TukeyWindow.h"/>
+        <FILE id="bIiLpf" name="EnvelopeGenerator.cpp" compile="1" resource="0"
+              file="Source/EnvelopeGenerator.cpp"/>
+        <FILE id="XkTBE6" name="EnvelopeGenerator.h" compile="0" resource="0"
+              file="Source/EnvelopeGenerator.h"/>
+      </GROUP>
       <FILE id="nn987T" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="yQQKol" name="PluginProcessor.h" compile="0" resource="0"
@@ -25,32 +57,6 @@
       <FILE id="NkbE83" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="odapvf" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
-      <FILE id="YwBl3b" name="GranularBuffer.cpp" compile="1" resource="0"
-            file="Source/GranularBuffer.cpp"/>
-      <FILE id="vSeVQF" name="GranularBuffer.h" compile="0" resource="0"
-            file="Source/GranularBuffer.h"/>
-      <FILE id="iMwe2H" name="GrainScheduler.cpp" compile="1" resource="0"
-            file="Source/GrainScheduler.cpp"/>
-      <FILE id="ZbJR4V" name="GrainScheduler.h" compile="0" resource="0"
-            file="Source/GrainScheduler.h"/>
-      <FILE id="M20OVH" name="Grain.cpp" compile="1" resource="0" file="Source/Grain.cpp"/>
-      <FILE id="SJFKJ5" name="Grain.h" compile="0" resource="0" file="Source/Grain.h"/>
-      <FILE id="yp8aeM" name="FourPointInterpolate.cpp" compile="1" resource="0"
-            file="Source/FourPointInterpolate.cpp"/>
-      <FILE id="uhyPS4" name="FourPointInterpolate.h" compile="0" resource="0"
-            file="Source/FourPointInterpolate.h"/>
-      <FILE id="ae3ZGv" name="TukeyWindow.cpp" compile="1" resource="0" file="Source/TukeyWindow.cpp"/>
-      <FILE id="FdSd7R" name="TukeyWindow.h" compile="0" resource="0" file="Source/TukeyWindow.h"/>
-      <FILE id="bIiLpf" name="EnvelopeGenerator.cpp" compile="1" resource="0"
-            file="Source/EnvelopeGenerator.cpp"/>
-      <FILE id="XkTBE6" name="EnvelopeGenerator.h" compile="0" resource="0"
-            file="Source/EnvelopeGenerator.h"/>
-      <FILE id="AhqgRU" name="AudioLiveScrollingDisplay.h" compile="0" resource="0"
-            file="Source/AudioLiveScrollingDisplay.h"/>
-      <FILE id="HksN4k" name="CustomLookAndFeel.cpp" compile="1" resource="0"
-            file="Source/CustomLookAndFeel.cpp"/>
-      <FILE id="Lko64L" name="CustomLookAndFeel.h" compile="0" resource="0"
-            file="Source/CustomLookAndFeel.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
