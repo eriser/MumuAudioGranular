@@ -16,6 +16,9 @@
 MumuAudioGranularAudioProcessor::MumuAudioGranularAudioProcessor() : grainp_ArrayL(nullptr),
                                                                      grainp_ArrayR(nullptr)
 {
+    m_GranulatorL = Granulator();
+    m_GranulatorR = Granulator();
+    
     m_gBufferL = GranularBuffer();
     m_gBufferR = GranularBuffer();
     
@@ -190,132 +193,18 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
             {
                 m_gBufferL.process(channelData[i]);
                 m_SchedulerL.play();
-                //////Real Time Pitch Shift//////
-                if (buttonState == 0)
-                {
-                    //Turn off our envelope on flag
-                    m_ADSR_Left_Started = 0;
-                    
-                    if (m_SchedulerL.bang() == true)
-                    {
-                        for (int i = 0; i < m_nNumberGrains; i++)
-                        {
-                            if(grainp_ArrayL[i].isItBusy() == 0)
-                            {
-                                grainp_ArrayL[i].setWindowSize(m_fSampleRate, grainSize);
-                                float delta = 0;
-                                if (pitch > 1)
-                                {
-                                    delta = (pitch-1)*(grainSize*m_fSampleRate);
-                                }
-                                grainp_ArrayL[i].setDelta(m_fSampleRate, delta);
-                                grainp_ArrayL[i].init(pitch, m_gBufferL);
-                                grainp_ArrayL[i].isBusy = 1;
-                                break;
-                            }
-                        }
-                    }
-                }
-                //////Time Stretch//////
-                if (buttonState == 1)
-                {
-                    if (m_ADSR_Left_Started != 1)
-                    {
-                        m_ADSR_Left.enterStage(EnvelopeGenerator::ENVELOPE_STAGE_ATTACK);
-                        m_ADSR_Left_Started = 1;
-                        stretchDeltaL = 0;
-                    }
-                    const float leftEnvValue = (m_ADSR_Left.nextSample()*4.5)*m_fSampleRate;
-                    stretchDeltaL = fmod((stretchDeltaL + stretchSpeed), m_gBufferL.getBufferLength());
-                    //std::cout << stretchDeltaL << std::endl;
-                    //Do Time Stretching
-                    if (m_SchedulerL.bang() == true)
-                    {
-                        for (int i = 0; i < m_nNumberGrains; i++)
-                        {
-                            if(grainp_ArrayL[i].isItBusy() == 0)
-                            {
-                                grainp_ArrayL[i].setWindowSize(m_fSampleRate, grainSize);
-                                grainp_ArrayL[i].setDelta(m_fSampleRate, stretchDeltaL);
-                                grainp_ArrayL[i].init(pitch, m_gBufferL);
-                                grainp_ArrayL[i].isBusy = 1;
-                                break;
-                            }
-                        }
-                    }
-                }
-                /////Generate Output////
-                float output = 0;
-                for (int i = 0; i < m_nNumberGrains; i++)
-                {
-                    output += grainp_ArrayL[i].play(m_fSampleRate, m_gBufferL);
-                }
+                
+                float output = m_GranulatorL.process( grainp_ArrayL, m_gBufferL, buttonState, m_SchedulerL.bang(), m_nNumberGrains, m_fSampleRate, grainSize, pitch, stretchSpeed );
+                //std::cout << output << std::endl;
                 channelData[i] = (output * dryWet) + ((1 - dryWet) * channelData[i]);
             }
             if (channel == 1)
             {
                 m_gBufferR.process(channelData[i]);
                 m_SchedulerR.play();
-                //////Real Time Pitch Shift//////
-                if (buttonState == 0)
-                {
-                    m_ADSR_Right_Started = 0;
-                    if (m_SchedulerR.bang() == true)
-                    {
-                        //std::cout << "bangR" << std::endl;
-                        for (int i = 0; i < m_nNumberGrains; i++)
-                        {
-                            if(grainp_ArrayR[i].isItBusy() == 0)
-                            {
-                                grainp_ArrayR[i].setWindowSize(m_fSampleRate, grainSize);
-                                float delta = 0;
-                                if (pitch > 1)
-                                {
-                                    delta = (pitch-1)*(grainSize*m_fSampleRate);
-                                }
-                                grainp_ArrayR[i].setDelta(m_fSampleRate, delta);
-                                grainp_ArrayR[i].init(pitch, m_gBufferR);
-                                grainp_ArrayR[i].isBusy = 1;
-                                break;
-                            }
-                        }
-                    }
-                }
-                //////Time Stretch//////
-                if (buttonState == 1)
-                {
-                    if (m_ADSR_Right_Started != 1)
-                    {
-                        m_ADSR_Right.enterStage(EnvelopeGenerator::ENVELOPE_STAGE_ATTACK);
-                        m_ADSR_Right_Started = 1;
-                        stretchDeltaR = 0;
-                    }
-                    const float rightEnvValue = (m_ADSR_Right.nextSample()*4.5) * m_fSampleRate;
-                    stretchDeltaR = fmod((stretchDeltaR+stretchSpeed), m_gBufferR.getBufferLength());
-                    //std::cout << rightEnvValue << std::endl;
-                    // Do Time Stretching
-                    if (m_SchedulerR.bang() == true)
-                    {
-                        //std::cout << "bangR" << std::endl;
-                        for (int i = 0; i < m_nNumberGrains; i++)
-                        {
-                            if(grainp_ArrayR[i].isItBusy() == 0)
-                            {
-                                grainp_ArrayR[i].setWindowSize(m_fSampleRate, grainSize);
-                                grainp_ArrayR[i].setDelta(m_fSampleRate, stretchDeltaR);
-                                grainp_ArrayR[i].init(pitch, m_gBufferR);
-                                grainp_ArrayR[i].isBusy = 1;
-                                break;
-                            }
-                        }
-                    }
-                }
-                /////Generate Output////
-                float output = 0;
-                for (int i = 0; i < m_nNumberGrains; i++)
-                {
-                    output += grainp_ArrayR[i].play(m_fSampleRate, m_gBufferR);
-                }
+
+                float output = m_GranulatorR.process( grainp_ArrayR, m_gBufferR, buttonState, m_SchedulerR.bang(), m_nNumberGrains, m_fSampleRate, grainSize, pitch, stretchSpeed );
+
                 channelData[i] = (output * dryWet) + ((1 - dryWet) * channelData[i]);
             }
         } 

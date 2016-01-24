@@ -20,7 +20,7 @@ public:
     Granulator();
     ~Granulator();
     
-    float process(float input, Grain* grains, GranularBuffer &buffer, bool buttonState, bool schedulerBang, float numGrains, float sampleRate, float grainSize, float pitch, float stretchSpeed);
+    float process( Grain* grains, GranularBuffer &buffer, bool buttonState, bool schedulerBang, float numGrains, float sampleRate, float grainSize, float pitch, float stretchSpeed);
 
 private:
     //if state is zero, no stretch, if state is 1, stretching

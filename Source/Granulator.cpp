@@ -22,7 +22,7 @@ Granulator::~Granulator(){
 }
 
 //==============================================================================
-float Granulator::process(float input, Grain* grains, GranularBuffer &buffer, bool buttonState, bool schedulerBang, float numGrains, float sampleRate, float grainSize, float pitch, float stretchSpeed){
+float Granulator::process( Grain* grains, GranularBuffer &buffer, bool buttonState, bool schedulerBang, float numGrains, float sampleRate, float grainSize, float pitch, float stretchSpeed){
     
     if (buttonState == 0)
     {

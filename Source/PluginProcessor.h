@@ -12,12 +12,11 @@
 #define PLUGINPROCESSOR_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Granulator.h"
 #include "GranularBuffer.h"
 #include "GrainScheduler.h"
 #include "Grain.h"
 #include "EnvelopeGenerator.h"
-//test
-
 
 //==============================================================================
 /**
@@ -88,14 +87,17 @@ private:
     float dryWet;
     int buttonState;
     float stretchSpeed;
-
+    //Top Grain Container
+    Granulator m_GranulatorL;
+    Granulator m_GranulatorR;
+    //Buffers for Granulation
     GranularBuffer m_gBufferL;
     GranularBuffer m_gBufferR;
     const float m_fMaxBufferLength = 10.0;
-    
+    //Clocks for driving Granulator
     GrainScheduler m_SchedulerL;
     GrainScheduler m_SchedulerR;
-    
+    //Array of grains to play buffers
     const int m_nNumberGrains = 6;
     Grain* grainp_ArrayL;
     Grain* grainp_ArrayR;
