@@ -2,15 +2,14 @@
 
 <JUCERPROJECT id="k6730B" name="MumuAudioGranular" projectType="audioplug"
               version="1.0.0" bundleIdentifier="com.yourcompany.MumuAudioGranular"
-              includeBinaryInAppConfig="1" buildVST="1" buildVST3="1" buildAU="0"
+              includeBinaryInAppConfig="1" buildVST="1" buildVST3="1" buildAU="1"
               buildRTAS="0" buildAAX="0" pluginName="MumuAudioGranular" pluginDesc="MumuAudioGranular"
               pluginManufacturer="yourcompany" pluginManufacturerCode="Manu"
-              pluginCode="K673" pluginChannelConfigs="{1, 1}, {2, 2}" pluginIsSynth="0"
-              pluginWantsMidiIn="0" pluginProducesMidiOut="0" pluginSilenceInIsSilenceOut="0"
-              pluginEditorRequiresKeys="0" pluginAUExportPrefix="MumuAudioGranularAU"
-              pluginRTASCategory="" aaxIdentifier="com.yourcompany.MumuAudioGranular"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="4.1.0"
-              pluginIsMidiEffectPlugin="0">
+              pluginCode="K673" pluginChannelConfigs="" pluginIsSynth="0" pluginWantsMidiIn="0"
+              pluginProducesMidiOut="0" pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
+              pluginAUExportPrefix="MumuAudioGranularAU" pluginRTASCategory=""
+              aaxIdentifier="com.yourcompany.MumuAudioGranular" pluginAAXCategory="AAX_ePlugInCategory_Dynamics"
+              jucerVersion="4.1.0" pluginIsMidiEffectPlugin="0">
   <MAINGROUP id="En0btd" name="MumuAudioGranular">
     <GROUP id="{5D7FA6A2-8922-A6C7-9ED2-B484B4B03281}" name="Resources">
       <FILE id="IB546s" name="BlackKnob.png" compile="0" resource="1" file="Resources/BlackKnob.png"/>
@@ -69,20 +68,20 @@
                        isDebug="0" optimisation="3" targetName="MumuAudioGranular"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_events" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_graphics" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_data_structures" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_gui_basics" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_gui_extra" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_cryptography" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_video" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_opengl" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_audio_basics" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_audio_devices" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_audio_formats" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_audio_processors" path="../../juce-grapefruit-osx"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="../../juce-grapefruit-osx"/>
+        <MODULEPATH id="juce_core" path="../../JUCE"/>
+        <MODULEPATH id="juce_events" path="../../JUCE"/>
+        <MODULEPATH id="juce_graphics" path="../../JUCE"/>
+        <MODULEPATH id="juce_data_structures" path="../../JUCE"/>
+        <MODULEPATH id="juce_gui_basics" path="../../JUCE"/>
+        <MODULEPATH id="juce_gui_extra" path="../../JUCE"/>
+        <MODULEPATH id="juce_cryptography" path="../../JUCE"/>
+        <MODULEPATH id="juce_video" path="../../JUCE"/>
+        <MODULEPATH id="juce_opengl" path="../../JUCE"/>
+        <MODULEPATH id="juce_audio_basics" path="../../JUCE"/>
+        <MODULEPATH id="juce_audio_devices" path="../../JUCE"/>
+        <MODULEPATH id="juce_audio_formats" path="../../JUCE"/>
+        <MODULEPATH id="juce_audio_processors" path="../../JUCE"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../JUCE"/>
       </MODULEPATHS>
     </XCODE_MAC>
   </EXPORTFORMATS>
