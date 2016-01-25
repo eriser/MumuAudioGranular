@@ -207,13 +207,33 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
 
                 channelData[i] = (output * dryWet) + ((1 - dryWet) * channelData[i]);
             }
-        } 
+        }
     }
 //    std::shared_ptr<AudioSampleBuffer> newBuffer = std::make_shared<AudioSampleBuffer>(buffer);
 //    std::atomic_store(&sharedSampleBuffer, newBuffer);
 //    guiUpToDate.store(false);
 //    std::cout << buttonState << std::endl;
 }
+//==============================================================================
+bool MumuAudioGranularAudioProcessor::setPreferredBusArrangement(bool isInputBus, int busIndex, const juce::AudioChannelSet &preferredSet){
+    const int numChannels = preferredSet.size();
+    
+    // we do not allow disabling any buses
+    if (preferredSet == AudioChannelSet::disabled())
+        return false;
+    
+    // only mono and stereo please
+    if (numChannels > 2)
+        return false;
+    
+    // always have the same channel layout on both input and output on the main bus
+    if (! AudioProcessor::setPreferredBusArrangement (! isInputBus, busIndex, preferredSet))
+        return false;
+    
+    // when accepting the layout we must fall through to the base class!
+    return AudioProcessor::setPreferredBusArrangement (! isInputBus, busIndex, preferredSet);
+}
+
 
 //==============================================================================
 bool MumuAudioGranularAudioProcessor::hasEditor() const
