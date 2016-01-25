@@ -189,21 +189,27 @@ void MumuAudioGranularAudioProcessor::processBlock (AudioSampleBuffer& buffer, M
         
         for ( int i = 0; i < buffer.getNumSamples(); i++ )
         {
+            //Left Processing
             if (channel == 0)
             {
                 m_gBufferL.process(channelData[i]);
                 m_SchedulerL.play();
+                const bool bangL = m_SchedulerL.bang();
+                const float output = m_GranulatorL.process( grainp_ArrayL, m_gBufferL,
+                                                           buttonState, bangL, m_nNumberGrains,
+                                                           m_fSampleRate, grainSize, pitch, stretchSpeed );
                 
-                float output = m_GranulatorL.process( grainp_ArrayL, m_gBufferL, buttonState, m_SchedulerL.bang(), m_nNumberGrains, m_fSampleRate, grainSize, pitch, stretchSpeed );
-                //std::cout << output << std::endl;
                 channelData[i] = (output * dryWet) + ((1 - dryWet) * channelData[i]);
             }
+            //Right Processing
             if (channel == 1)
             {
                 m_gBufferR.process(channelData[i]);
                 m_SchedulerR.play();
-
-                float output = m_GranulatorR.process( grainp_ArrayR, m_gBufferR, buttonState, m_SchedulerR.bang(), m_nNumberGrains, m_fSampleRate, grainSize, pitch, stretchSpeed );
+                const bool bangR = m_SchedulerR.bang();
+                const float output = m_GranulatorR.process( grainp_ArrayR, m_gBufferR,
+                                                           buttonState, bangR, m_nNumberGrains,
+                                                           m_fSampleRate, grainSize, pitch, stretchSpeed );
 
                 channelData[i] = (output * dryWet) + ((1 - dryWet) * channelData[i]);
             }

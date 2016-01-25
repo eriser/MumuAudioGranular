@@ -83,7 +83,7 @@ private:
     //Mapped param variables
     float pitch;
     float density;
-    float grainSize;
+    float grainSize = 0.01f;
     float dryWet;
     int buttonState;
     float stretchSpeed;
